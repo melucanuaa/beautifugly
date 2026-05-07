@@ -18,7 +18,14 @@ function formatDate(date: Date) {
 }
 ---
 
-<Layout title={project.data.title} description={project.data.description}>
+<Layout
+  title={project.data.title}
+  description={project.data.description}
+  image={project.data.image}
+  type="article"
+  publishDate={project.data.date}
+  tags={project.data.tags}
+>
   <article class="max-w-3xl mx-auto px-6 py-12">
     <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回项目</a>
 

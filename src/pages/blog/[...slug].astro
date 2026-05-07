@@ -5,29 +5,36 @@ import TOC from '../../components/TOC.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
+  const posts = (await getCollection('blog'))
+    .filter(p => !p.data.draft)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      prevPost: index < posts.length - 1 ? posts[index + 1] : null,
+      nextPost: index > 0 ? posts[index - 1] : null,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
 
 function formatDate(date: Date) {
   return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 }
-
-function getReadingTime(text: string): number {
-  const chars = text.replace(/<[^>]*>/g, '').replace(/\s+/g, '').length;
-  return Math.max(1, Math.ceil(chars / 300));
-}
-
-const readingMinutes = getReadingTime(post.body || '');
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout
+  title={post.data.title}
+  description={post.data.description || post.data.title}
+  image={post.data.image || '/og-default.svg'}
+  type="article"
+  publishDate={post.data.date}
+  tags={post.data.tags}
+>
   <TOC headings={headings} />
   <article class="max-w-3xl mx-auto px-6 py-12">
     <a href="/blog" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回博客</a>
@@ -51,6 +58,47 @@ const readingMinutes = getReadingTime(post.body || '');
 
     <div class="prose prose-lg max-w-none">
       <Content />
+    </div>
+
+    {/* Previous / Next Navigation */}
+    <nav class="mt-16 pt-8 border-t-2 border-[var(--color-border)]">
+      <div class="grid md:grid-cols-2 gap-4">
+        {prevPost && (
+          <a href={`/blog/${prevPost.id}`} class="card p-4 group">
+            <span class="text-xs text-[var(--color-text-light)]">← 上一篇</span>
+            <p class="font-medium mt-1 group-hover:text-[var(--color-accent)] transition-colors">{prevPost.data.title}</p>
+          </a>
+        )}
+        {nextPost && (
+          <a href={`/blog/${nextPost.id}`} class="card p-4 group text-right md:ml-auto">
+            <span class="text-xs text-[var(--color-text-light)]">下一篇 →</span>
+            <p class="font-medium mt-1 group-hover:text-[var(--color-accent)] transition-colors">{nextPost.data.title}</p>
+          </a>
+        )}
+      </div>
+    </nav>
+
+    {/* Giscus Comments */}
+    <div class="mt-12">
+      <h2 class="font-[var(--font-pixel)] text-sm mb-6">评论</h2>
+      <div class="giscus"></div>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo="MelucaNUAA/beautifugly"
+        data-repo-id=""
+        data-category="Announcements"
+        data-category-id=""
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+      </script>
     </div>
   </article>
 </Layout>

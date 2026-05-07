@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Newsletter from '../components/Newsletter.astro';
 import { getCollection } from 'astro:content';
 
 const allBlog = (await getCollection('blog')).filter(p => !p.data.draft);
@@ -9,6 +10,13 @@ const allProjects = (await getCollection('projects')).filter(p => !p.data.draft)
 const latestBlog = allBlog.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 const latestWorks = allWorks.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
 const latestProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+
+// Get popular tags
+const allTags = [...new Set(allBlog.flatMap(p => p.data.tags))];
+const tagCounts = allTags.map(tag => ({
+  tag,
+  count: allBlog.filter(p => p.data.tags.includes(tag)).length,
+})).sort((a, b) => b.count - a.count).slice(0, 8);
 
 function formatDate(date: Date) {
   return date.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
@@ -31,6 +39,22 @@ function formatDate(date: Date) {
       <a href="/about" class="pixel-btn bg-[var(--color-bg-card)]">了解我</a>
     </div>
   </section>
+
+  {/* Tags Quick Access */}
+  {tagCounts.length > 0 && (
+    <section class="max-w-4xl mx-auto px-6 pb-12">
+      <div class="flex flex-wrap gap-2">
+        {tagCounts.map(({ tag, count }) => (
+          <a href={`/blog?tag=${tag}`} class="text-xs px-3 py-1.5 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-full hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors">
+            {tag} <span class="text-[var(--color-text-light)]">({count})</span>
+          </a>
+        ))}
+        <a href="/tags" class="text-xs px-3 py-1.5 text-[var(--color-accent)] hover:underline">
+          全部标签 →
+        </a>
+      </div>
+    </section>
+  )}
 
   {/* Latest Blog */}
   <section class="max-w-4xl mx-auto px-6 pb-12">
@@ -87,7 +111,7 @@ function formatDate(date: Date) {
   </section>
 
   {/* Latest Projects */}
-  <section class="max-w-4xl mx-auto px-6 pb-16">
+  <section class="max-w-4xl mx-auto px-6 pb-12">
     <div class="flex items-center justify-between mb-6">
       <h2 class="font-[var(--font-pixel)] text-sm">✦ 最新项目</h2>
       <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline">查看全部 →</a>
@@ -108,5 +132,10 @@ function formatDate(date: Date) {
         <p class="text-[var(--color-text-light)] text-sm py-8 text-center col-span-2">还没有项目，敬请期待 ✦</p>
       )}
     </div>
+  </section>
+
+  {/* Newsletter */}
+  <section class="max-w-4xl mx-auto px-6 pb-16">
+    <Newsletter />
   </section>
 </Layout>

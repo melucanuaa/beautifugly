@@ -4,15 +4,24 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '../components/Analytics.astro';
 import BackToTop from '../components/BackToTop.astro';
+import SEO from '../components/SEO.astro';
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishDate?: Date;
+  tags?: string[];
 }
 
 const {
   title = 'Beautifugly',
-  description = '技术博文、AI 创作、有趣项目 — 一个记录成长与探索的小站。'
+  description = '技术博文、AI 创作、有趣项目 — 一个记录成长与探索的小站。',
+  image = '/og-default.svg',
+  type = 'website',
+  publishDate,
+  tags = [],
 } = Astro.props;
 ---
 
@@ -23,12 +32,13 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet" />
     <link rel="alternate" type="application/rss+xml" title="Beautifugly Blog RSS" href="/rss.xml" />
+    <SEO title={title} description={description} image={image} type={type} publishDate={publishDate} tags={tags} />
     <title>{title} | Beautifugly</title>
+    <meta name="view-transition" content="same-origin" />
   </head>
   <body class="min-h-screen flex flex-col">
     <Nav />
