@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title={project.data.title} description={project.data.description}>
+  <article class="max-w-3xl mx-auto px-6 py-12">
+    <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回项目</a>
+
+    <header class="mb-8">
+      <h1 class="font-[var(--font-pixel)] text-xl md:text-2xl mb-4">{project.data.title}</h1>
+      <p class="text-lg text-[var(--color-text-light)] mb-4">{project.data.description}</p>
+      <div class="flex items-center gap-4 text-sm text-[var(--color-text-light)]">
+        <span>{formatDate(project.data.date)}</span>
+        <div class="flex gap-2">
+          {project.data.tags.map(tag => (
+            <span class="text-xs px-2 py-0.5 bg-[var(--color-accent-purple)]/10 rounded">{tag}</span>
+          ))}
+        </div>
+      </div>
+      <div class="flex gap-3 mt-4">
+        {project.data.link && (
+          <a href={project.data.link} target="_blank" rel="noopener" class="pixel-btn bg-[var(--color-accent)] text-white text-xs">
+            访问项目
+          </a>
+        )}
+        {project.data.github && (
+          <a href={project.data.github} target="_blank" rel="noopener" class="pixel-btn bg-[var(--color-bg-card)] text-xs">
+            GitHub
+          </a>
+        )}
+      </div>
+    </header>
+
+    {project.data.image && (
+      <img src={project.data.image} alt={project.data.title} class="w-full rounded-lg mb-8" loading="lazy" />
+    )}
+
+    <div class="prose prose-lg max-w-none">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .prose :global(h2) {
+    font-family: var(--font-pixel);
+    font-size: 0.9rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+  }
+
+  .prose :global(code) {
+    background: var(--color-border);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .prose :global(pre) {
+    background: var(--color-text);
+    color: var(--color-bg);
+    padding: 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+</style>

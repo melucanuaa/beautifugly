@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --color-bg: #FAF8F5;
+  --color-bg-card: #FFFFFF;
+  --color-text: #2D2D2D;
+  --color-text-light: #6B6B6B;
+  --color-accent: #7EC8C8;
+  --color-accent-purple: #B8A9E8;
+  --color-accent-pink: #F2B5D4;
+  --color-border: #E8E4DF;
+  --color-border-pixel: #2D2D2D;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-pixel);
+    line-height: 1.4;
+  }
+
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: var(--color-accent-purple);
+  }
+}
+
+@layer components {
+  .pixel-border {
+    border: 3px solid var(--color-border-pixel);
+    box-shadow: 4px 4px 0 var(--color-border-pixel);
+  }
+
+  .pixel-border-sm {
+    border: 2px solid var(--color-border-pixel);
+    box-shadow: 3px 3px 0 var(--color-border-pixel);
+  }
+
+  .pixel-btn {
+    font-family: var(--font-pixel);
+    font-size: 0.7rem;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--color-border-pixel);
+    box-shadow: 3px 3px 0 var(--color-border-pixel);
+    transition: all 0.1s;
+    cursor: pointer;
+  }
+
+  .pixel-btn:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 var(--color-border-pixel);
+  }
+
+  .card {
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .pixel-star::before {
+    content: '✦';
+    color: var(--color-accent);
+  }
+}

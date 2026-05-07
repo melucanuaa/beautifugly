@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const works = (await getCollection('works'))
+  .filter(w => !w.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="作品集">
+  <section class="max-w-4xl mx-auto px-6 py-12">
+    <h1 class="font-[var(--font-pixel)] text-xl mb-2">✦ 作品集</h1>
+    <p class="text-[var(--color-text-light)] mb-8">AI 生图、视频、创意作品展示</p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {works.map(work => (
+        <a href={`/works/${work.id}`} class="card overflow-hidden group">
+          <div class="aspect-[4/3] bg-[var(--color-border)] overflow-hidden">
+            {work.data.image ? (
+              <img
+                src={work.data.image}
+                alt={work.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-4xl">✦</div>
+            )}
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium text-sm">{work.data.title}</h3>
+            {work.data.description && (
+              <p class="text-xs text-[var(--color-text-light)] mt-1 line-clamp-2">{work.data.description}</p>
+            )}
+            <div class="flex gap-1.5 mt-2 flex-wrap">
+              {work.data.tags.map(tag => (
+                <span class="text-[10px] px-1.5 py-0.5 bg-[var(--color-accent)]/10 rounded">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+      {works.length === 0 && (
+        <p class="text-[var(--color-text-light)] text-sm py-12 text-center col-span-3">还没有作品，敬请期待 ✦</p>
+      )}
+    </div>
+  </section>
+</Layout>

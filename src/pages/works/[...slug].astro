@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works');
+  return works.map(work => ({
+    params: { slug: work.id },
+    props: { work },
+  }));
+}
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+---
+
+<Layout title={work.data.title} description={work.data.description}>
+  <article class="max-w-4xl mx-auto px-6 py-12">
+    <a href="/works" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回作品集</a>
+
+    <header class="mb-8">
+      <h1 class="font-[var(--font-pixel)] text-xl md:text-2xl mb-4">{work.data.title}</h1>
+      <div class="flex items-center gap-4 text-sm text-[var(--color-text-light)]">
+        <span>{formatDate(work.data.date)}</span>
+        <div class="flex gap-2">
+          {work.data.tags.map(tag => (
+            <span class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded">{tag}</span>
+          ))}
+        </div>
+      </div>
+    </header>
+
+    {work.data.image && (
+      <img src={work.data.image} alt={work.data.title} class="w-full rounded-lg mb-8" loading="lazy" />
+    )}
+
+    {work.data.description && (
+      <p class="text-lg text-[var(--color-text-light)] mb-8">{work.data.description}</p>
+    )}
+
+    <div class="prose prose-lg max-w-none">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .prose :global(h2) {
+    font-family: var(--font-pixel);
+    font-size: 0.9rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose :global(p) {
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+  }
+
+  .prose :global(img) {
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+</style>

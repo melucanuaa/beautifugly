@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#FAF8F5"/>
+
+  <!-- Pixel cat -->
+  <rect x="60" y="40" width="20" height="20" fill="#7EC8C8"/>
+  <rect x="120" y="40" width="20" height="20" fill="#7EC8C8"/>
+
+  <rect x="60" y="60" width="80" height="20" fill="#7EC8C8"/>
+
+  <rect x="60" y="80" width="20" height="20" fill="#7EC8C8"/>
+  <rect x="90" y="80" width="20" height="20" fill="#2D2D2D"/>
+  <rect x="120" y="80" width="20" height="20" fill="#2D2D2D"/>
+
+  <rect x="60" y="100" width="80" height="20" fill="#7EC8C8"/>
+
+  <rect x="60" y="120" width="20" height="20" fill="#7EC8C8"/>
+  <rect x="120" y="120" width="20" height="20" fill="#7EC8C8"/>
+
+  <!-- Whiskers -->
+  <rect x="40" y="90" width="20" height="4" fill="#B8A9E8"/>
+  <rect x="140" y="90" width="20" height="4" fill="#B8A9E8"/>
+
+  <!-- Tail -->
+  <rect x="140" y="110" width="20" height="4" fill="#F2B5D4"/>
+  <rect x="160" y="100" width="4" height="20" fill="#F2B5D4"/>
+
+  <text x="100" y="180" text-anchor="middle" font-family="monospace" font-size="12" fill="#6B6B6B">pixel cat ✦</text>
+</svg>
