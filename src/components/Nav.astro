@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
+
 const links = [
   { href: '/', label: '首页' },
   { href: '/blog', label: '博客' },
@@ -31,14 +33,30 @@ const currentPath = Astro.url.pathname;
           {link.label}
         </a>
       ))}
+      <button id="search-btn" class="text-[var(--color-text-light)] hover:text-[var(--color-text)] transition-colors" aria-label="搜索">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+      <ThemeToggle />
     </div>
 
-    {/* Mobile menu button */}
-    <button id="menu-toggle" class="md:hidden p-2" aria-label="Toggle menu">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 12h18M3 6h18M3 18h18" />
-      </svg>
-    </button>
+    {/* Mobile controls */}
+    <div class="flex md:hidden items-center gap-2">
+      <button id="search-btn-mobile" class="p-2 text-[var(--color-text-light)]" aria-label="搜索">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+      <ThemeToggle />
+      <button id="menu-toggle" class="p-2" aria-label="Toggle menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18" />
+        </svg>
+      </button>
+    </div>
   </div>
 
   {/* Mobile menu */}
@@ -61,11 +79,145 @@ const currentPath = Astro.url.pathname;
   </div>
 </nav>
 
+{/* Search modal */}
+<div id="search-modal" class="fixed inset-0 z-[100] hidden">
+  <div class="absolute inset-0 bg-black/50" id="search-overlay"></div>
+  <div class="relative max-w-2xl mx-auto mt-20 px-4">
+    <div class="bg-[var(--color-bg-card)] border-2 border-[var(--color-border-pixel)] rounded-lg p-4 shadow-xl">
+      <input
+        id="search-input"
+        type="text"
+        placeholder="搜索文章、作品、项目..."
+        class="w-full bg-transparent text-[var(--color-text)] placeholder-[var(--color-text-light)] outline-none text-lg"
+        autofocus
+      />
+      <div id="search-results" class="mt-4 max-h-80 overflow-y-auto"></div>
+      <div class="mt-3 text-xs text-[var(--color-text-light)] text-center">
+        按 ESC 关闭 · Ctrl+K 打开
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
 
   toggle?.addEventListener('click', () => {
     menu?.classList.toggle('hidden');
+  });
+
+  // Search functionality
+  const searchModal = document.getElementById('search-modal');
+  const searchOverlay = document.getElementById('search-overlay');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const searchResults = document.getElementById('search-results');
+  const searchBtn = document.getElementById('search-btn');
+  const searchBtnMobile = document.getElementById('search-btn-mobile');
+
+  interface SearchItem {
+    title: string;
+    description: string;
+    url: string;
+    tags: string[];
+  }
+
+  let searchData: SearchItem[] = [];
+
+  async function loadSearchData() {
+    if (searchData.length > 0) return;
+    try {
+      const res = await fetch('/api/search.json');
+      searchData = await res.json();
+    } catch {
+      searchData = [];
+    }
+  }
+
+  function openSearch() {
+    searchModal?.classList.remove('hidden');
+    searchInput?.focus();
+    loadSearchData();
+  }
+
+  function closeSearch() {
+    searchModal?.classList.add('hidden');
+    if (searchInput) searchInput.value = '';
+    if (searchResults) {
+      while (searchResults.firstChild) {
+        searchResults.removeChild(searchResults.firstChild);
+      }
+    }
+  }
+
+  searchBtn?.addEventListener('click', openSearch);
+  searchBtnMobile?.addEventListener('click', openSearch);
+  searchOverlay?.addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      openSearch();
+    }
+    if (e.key === 'Escape') {
+      closeSearch();
+    }
+  });
+
+  function createResultItem(item: SearchItem): HTMLAnchorElement {
+    const a = document.createElement('a');
+    a.href = item.url;
+    a.className = 'block p-3 rounded hover:bg-[var(--color-border)] transition-colors';
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'font-medium text-sm';
+    titleDiv.textContent = item.title;
+
+    const descDiv = document.createElement('div');
+    descDiv.className = 'text-xs text-[var(--color-text-light)] mt-1';
+    descDiv.textContent = item.description || '';
+
+    const tagsDiv = document.createElement('div');
+    tagsDiv.className = 'flex gap-1 mt-1';
+    item.tags.forEach(t => {
+      const span = document.createElement('span');
+      span.className = 'text-[10px] px-1.5 py-0.5 bg-[var(--color-accent)]/10 rounded';
+      span.textContent = t;
+      tagsDiv.appendChild(span);
+    });
+
+    a.appendChild(titleDiv);
+    a.appendChild(descDiv);
+    a.appendChild(tagsDiv);
+    return a;
+  }
+
+  searchInput?.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase().trim();
+    if (!searchResults) return;
+
+    while (searchResults.firstChild) {
+      searchResults.removeChild(searchResults.firstChild);
+    }
+
+    if (!query) return;
+
+    const filtered = searchData.filter(item =>
+      item.title.toLowerCase().includes(query) ||
+      item.description.toLowerCase().includes(query) ||
+      item.tags.some(t => t.toLowerCase().includes(query))
+    );
+
+    if (filtered.length === 0) {
+      const p = document.createElement('p');
+      p.className = 'text-center text-[var(--color-text-light)] py-4';
+      p.textContent = '没有找到相关内容';
+      searchResults.appendChild(p);
+      return;
+    }
+
+    filtered.forEach(item => {
+      searchResults.appendChild(createResultItem(item));
+    });
   });
 </script>

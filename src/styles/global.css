@@ -3,7 +3,9 @@
 @theme {
   --font-pixel: 'Press Start 2P', monospace;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
 
+:root {
   --color-bg: #FAF8F5;
   --color-bg-card: #FFFFFF;
   --color-text: #2D2D2D;
@@ -15,12 +17,25 @@
   --color-border-pixel: #2D2D2D;
 }
 
+[data-theme="dark"] {
+  --color-bg: #1A1A2E;
+  --color-bg-card: #16213E;
+  --color-text: #E8E4DF;
+  --color-text-light: #9B9B9B;
+  --color-accent: #7EC8C8;
+  --color-accent-purple: #B8A9E8;
+  --color-accent-pink: #F2B5D4;
+  --color-border: #2A2A4A;
+  --color-border-pixel: #E8E4DF;
+}
+
 @layer base {
   body {
     font-family: var(--font-sans);
     background-color: var(--color-bg);
     color: var(--color-text);
     line-height: 1.7;
+    transition: background-color 0.3s, color 0.3s;
   }
 
   h1, h2, h3 {
@@ -74,7 +89,7 @@
 
   .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
 
   .pixel-star::before {

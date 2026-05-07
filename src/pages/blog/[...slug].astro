@@ -1,5 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ReadingTime from '../../components/ReadingTime.astro';
+import TOC from '../../components/TOC.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -11,24 +13,33 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 function formatDate(date: Date) {
   return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+function getReadingTime(text: string): number {
+  const chars = text.replace(/<[^>]*>/g, '').replace(/\s+/g, '').length;
+  return Math.max(1, Math.ceil(chars / 300));
+}
+
+const readingMinutes = getReadingTime(post.body || '');
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
+  <TOC headings={headings} />
   <article class="max-w-3xl mx-auto px-6 py-12">
     <a href="/blog" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回博客</a>
 
     <header class="mb-8">
       <h1 class="font-[var(--font-pixel)] text-xl md:text-2xl mb-4">{post.data.title}</h1>
-      <div class="flex items-center gap-4 text-sm text-[var(--color-text-light)]">
+      <div class="flex items-center gap-4 text-sm text-[var(--color-text-light)] flex-wrap">
         <span>{formatDate(post.data.date)}</span>
+        <ReadingTime content={post.body || ''} />
         <div class="flex gap-2">
           {post.data.tags.map(tag => (
-            <span class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded">{tag}</span>
+            <a href={`/blog?tag=${tag}`} class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded hover:bg-[var(--color-accent)]/20 transition-colors">{tag}</a>
           ))}
         </div>
       </div>
@@ -50,6 +61,7 @@ function formatDate(date: Date) {
     font-size: 0.9rem;
     margin-top: 2.5rem;
     margin-bottom: 1rem;
+    scroll-margin-top: 5rem;
   }
 
   .prose :global(h3) {
@@ -57,6 +69,7 @@ function formatDate(date: Date) {
     font-size: 0.75rem;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
+    scroll-margin-top: 5rem;
   }
 
   .prose :global(p) {

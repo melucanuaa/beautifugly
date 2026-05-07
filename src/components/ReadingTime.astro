@@ -1,0 +1,19 @@
+---
+interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+
+function getReadingTime(text: string): number {
+  const words = text.replace(/<[^>]*>/g, '').replace(/\s+/g, '').length;
+  const wordsPerMinute = 300; // 中文阅读速度
+  return Math.max(1, Math.ceil(words / wordsPerMinute));
+}
+
+const minutes = getReadingTime(content);
+---
+
+<span class="text-xs text-[var(--color-text-light)]">
+  约 {minutes} 分钟读完
+</span>

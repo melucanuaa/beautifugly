@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Analytics from '../components/Analytics.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 interface Props {
   title?: string;
@@ -10,7 +12,7 @@ interface Props {
 
 const {
   title = 'Beautifugly',
-  description = 'A personal site sharing tech blogs, AI creations, and interesting projects.'
+  description = '技术博文、AI 创作、有趣项目 — 一个记录成长与探索的小站。'
 } = Astro.props;
 ---
 
@@ -25,6 +27,7 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="alternate" type="application/rss+xml" title="Beautifugly Blog RSS" href="/rss.xml" />
     <title>{title} | Beautifugly</title>
   </head>
   <body class="min-h-screen flex flex-col">
@@ -33,5 +36,7 @@ const {
       <slot />
     </main>
     <Footer />
+    <BackToTop />
+    <Analytics />
   </body>
 </html>
