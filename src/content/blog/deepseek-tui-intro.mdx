@@ -3,7 +3,6 @@ title: "DeepSeek-TUI：把 DeepSeek V4 搬进终端的编程 Agent"
 date: 2026-05-10
 tags: ["DeepSeek", "AI编程", "终端工具", "开源"]
 description: "GitHub 热榜第一，23K+ stars 的终端编程 Agent。基于 DeepSeek V4，支持百万 token 上下文、子 Agent 调度、MCP 协议。"
-image: "/images/blog/deepseek-tui-cover.png"
 ---
 
 GitHub 两天涨 3500 stars，总星标突破 23K 登顶热榜——**DeepSeek-TUI** 把 DeepSeek V4 塞进终端，做成能读写文件、执行命令、管理 Git 的编程 Agent。开源、便宜、跑在 DeepSeek 模型上。
@@ -129,34 +128,41 @@ cargo install deepseek-tui --locked
 
 ## 对比 Claude Code
 
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>DeepSeek-TUI</th>
-      <th>Claude Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>开源</strong></td><td style="color:var(--color-accent)">MIT</td><td>闭源</td></tr>
-    <tr><td><strong>模型</strong></td><td>DeepSeek V4</td><td>Claude Opus/Sonnet</td></tr>
-    <tr><td><strong>上下文</strong></td><td style="color:var(--color-accent)">100 万 token</td><td>20 万 token</td></tr>
-    <tr><td><strong>价格</strong></td><td style="color:var(--color-accent)">极低（~$0.14/M）</td><td>$20/月订阅</td></tr>
-    <tr><td><strong>子 Agent</strong></td><td>原生 16 个</td><td>Teams（预览）</td></tr>
-    <tr><td><strong>MCP</strong></td><td>✓</td><td>✓</td></tr>
-    <tr><td><strong>自动模式</strong></td><td>模型+推理自动</td><td>Auto Mode</td></tr>
-    <tr><td><strong>回滚</strong></td><td style="color:var(--color-accent)">内置快照</td><td>无</td></tr>
-  </tbody>
-</table>
-
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:1rem 0">
-  <div style="background:var(--color-accent-secondary);color:#fff;border-radius:10px;padding:14px;font-size:0.85rem">
-    <div style="font-weight:600;margin-bottom:6px">选 DeepSeek-TUI</div>
-    预算敏感 · 喜欢开源 · 超长上下文 · 中文优先
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.5rem 0">
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:20px;border:1px solid var(--color-border)">
+    <div style="font-weight:700;font-size:1rem;margin-bottom:14px;color:var(--color-accent)">DeepSeek-TUI</div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:0.82rem">
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">开源</span><strong>MIT 协议</strong></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">模型</span><span>DeepSeek V4</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">上下文</span><strong>100 万 token</strong></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">价格</span><strong>~$0.14/M tokens</strong></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">子 Agent</span><span>原生 16 个</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">MCP</span><span>✓</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">自动模式</span><span>模型+推理自动</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">回滚</span><strong>内置快照</strong></div>
+    </div>
   </div>
-  <div style="background:var(--color-accent);color:#fff;border-radius:10px;padding:14px;font-size:0.85rem">
-    <div style="font-weight:600;margin-bottom:6px">选 Claude Code</div>
-    最强代码质量 · Anthropic 生态 · 不差钱
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:20px;border:1px solid var(--color-border)">
+    <div style="font-weight:700;font-size:1rem;margin-bottom:14px;color:var(--color-text-light)">Claude Code</div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:0.82rem">
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">开源</span><span>闭源</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">模型</span><span>Claude Opus/Sonnet</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">上下文</span><span>20 万 token</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">价格</span><span>$20/月订阅</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">子 Agent</span><span>Teams（预览）</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">MCP</span><span>✓</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">自动模式</span><span>Auto Mode</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">回滚</span><span style="color:var(--color-text-light)">无</span></div>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 1.5rem">
+  <div style="background:var(--color-accent-secondary);color:#fff;border-radius:10px;padding:14px;font-size:0.82rem;line-height:1.6">
+    <strong>选它：</strong>预算敏感 · 喜欢开源 · 超长上下文 · 中文优先
+  </div>
+  <div style="background:var(--color-accent);color:#fff;border-radius:10px;padding:14px;font-size:0.82rem;line-height:1.6">
+    <strong>选它：</strong>最强代码质量 · Anthropic 生态 · 不差钱
   </div>
 </div>
 
