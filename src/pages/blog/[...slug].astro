@@ -148,6 +148,31 @@ function formatDate(date: Date) {
     padding: 0;
   }
 
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+  }
+
+  .prose :global(th) {
+    background: var(--color-bg-card);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .prose :global(td) {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .prose :global(tr:last-child td) {
+    border-bottom: none;
+  }
+
   .prose :global(blockquote) {
     border-left: 3px solid var(--color-accent);
     padding-left: 1rem;
