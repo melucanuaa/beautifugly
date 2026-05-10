@@ -5,7 +5,7 @@ tags: ["AI", "Claude Code", "效率", "工具"]
 description: "为什么用 Claude Code 时，让 AI 输出 HTML 比 Markdown 好用得多。来自 Anthropic 员工 Thariq 的实践分享。"
 ---
 
-最近看到一条推文（750 万浏览），来自 Anthropic 的 Thariq——他目前在做 Claude Code。核心观点很简单：**用 AI 工作时，让输出 HTML 而不是 Markdown，效果好得离谱。**
+最近看到一条推文（750 万浏览），来自 Anthropic 的 Thariq——他目前在做 Claude Code。核心观点：**用 AI 工作时，让输出 HTML 而不是 Markdown，效果好得离谱。**
 
 ## 先说结论
 
@@ -26,86 +26,50 @@ description: "为什么用 Claude Code 时，让 AI 输出 HTML 比 Markdown 好
     <tr>
       <td><strong>可读性</strong></td>
       <td>超过 100 行就没人想看</td>
-      <td>带标签页、折叠块、高亮，扫一眼就懂</td>
+      <td>标签页、折叠块、高亮，扫一眼就懂</td>
     </tr>
     <tr>
       <td><strong>可分享性</strong></td>
-      <td>得用专门的渲染器才能看</td>
+      <td>得用渲染器才能看</td>
       <td>浏览器直接打开，发个链接就行</td>
     </tr>
     <tr>
       <td><strong>交互性</strong></td>
       <td>没有</td>
-      <td>滑块、按钮、实时预览，调完参数直接复制回 AI</td>
+      <td>滑块、按钮、实时预览，调完参数复制回 AI</td>
+    </tr>
+    <tr>
+      <td><strong>生成速度</strong></td>
+      <td>快</td>
+      <td>慢 2-4x，但结果值得</td>
     </tr>
   </tbody>
 </table>
 
 ## 为什么 HTML 更好
 
-### 1. 信息密度高太多了
-
-Markdown 能表达的东西很有限——标题、列表、表格、代码块，基本就这些。而 HTML 可以做：
-
-- **对比表格** — 多个方案并排展示，优劣一目了然
-- **SVG 图表** — 流程图、架构图，直接内嵌
-- **代码高亮** — 带行号、带标注
-- **交互控件** — 滑块调参数、下拉切换视图
-
-Thariq 原话说得很有意思：没有 HTML 的时候，Claude 会用 Unicode 字符"估算颜色"来画图。有了 HTML，这些都不需要了。
-
-### 2. 你真的会读 HTML，但不会读 Markdown
-
-这一点扎心了。写过 AI 生成的长文档的人都有体会：
-
-<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent)">
-  <strong>原话</strong>："我发现自己超过 100 行的 Markdown 根本读不下去，更别说让团队里其他人读了。"
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:1rem 0">
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">信息密度</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">Markdown 只有标题、列表、表格、代码块。HTML 能做对比表格、SVG 图表、代码高亮、交互控件。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">你会读 HTML，但不会读 Markdown</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">超过 100 行的 Markdown 没人读。HTML 有标签页、折叠块、视觉层级——500 行文档两三屏看完。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">分享方便</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">Markdown 需要渲染器。HTML 丢到任何地方，浏览器打开就能看。上传 S3 发链接即可。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">交互性</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">滑块调参数、下拉切换视图、点按钮复制结果。AI → 人调整 → 喂回 AI，人始终在回路里。</div>
+  </div>
 </div>
 
-HTML 有标签页（Tabs）、折叠块（可展开/收起）、视觉层级、链接跳转。一份 500 行的规格文档，用 HTML 渲染出来可能只要滚动两三屏就看完了。
+Thariq 原话："没有 HTML 的时候，Claude 会用 Unicode 字符'估算颜色'来画图。"
 
-### 3. 分享方便
-
-Markdown 文件发给别人，对方还得装个渲染器。HTML？丢到任何地方，浏览器打开就能看。Thariq 的做法是上传到 S3 然后发链接。
-
-> "一份规格文档、报告、或者 PR 说明，如果是 HTML 格式，被别人真正打开阅读的概率要高得多。"
-
-### 4. 交互性：AI 输出 → 人调整 → 喂回 AI
-
-这是最酷的部分。HTML 支持滑块、输入框、下拉菜单这些交互元素。典型的工作流：
-
-<table>
-  <thead>
-    <tr>
-      <th>步骤</th>
-      <th>动作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>1</strong></td>
-      <td>让 AI 生成一个带交互控件的 HTML 页面</td>
-    </tr>
-    <tr>
-      <td><strong>2</strong></td>
-      <td>拖动滑块、选择选项，调到满意的效果</td>
-    </tr>
-    <tr>
-      <td><strong>3</strong></td>
-      <td>点"复制为 Prompt"按钮</td>
-    </tr>
-    <tr>
-      <td><strong>4</strong></td>
-      <td>粘贴回 Claude Code，继续下一步</td>
-    </tr>
-  </tbody>
-</table>
-
-整个过程人始终保持在回路里，而不是把所有决策都丢给 AI。
-
-## 实际能用来干嘛
-
-Thariq 给了 9 大类、20 个实际案例：
+## 9 大使用场景
 
 <table>
   <thead>
@@ -115,67 +79,54 @@ Thariq 给了 9 大类、20 个实际案例：
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><strong>探索与规划</strong></td>
-      <td>多个方案并排对比、交互式原型、实现计划时间线</td>
-    </tr>
-    <tr>
-      <td><strong>代码审查</strong></td>
-      <td>带标注的 Diff、PR 说明文档、模块依赖图</td>
-    </tr>
-    <tr>
-      <td><strong>设计</strong></td>
-      <td>活的设计系统、组件变体一览表</td>
-    </tr>
-    <tr>
-      <td><strong>原型</strong></td>
-      <td>动画沙盒（用滑块调时长和缓动）、可点击的页面流</td>
-    </tr>
-    <tr>
-      <td><strong>图表与示意图</strong></td>
-      <td>SVG 图解、可交互的流程图</td>
-    </tr>
-    <tr>
-      <td><strong>演示</strong></td>
-      <td>用方向键翻页的幻灯片，一个 HTML 文件搞定</td>
-    </tr>
-    <tr>
-      <td><strong>学习与研究</strong></td>
-      <td>功能原理讲解、交互式概念演示</td>
-    </tr>
-    <tr>
-      <td><strong>报告</strong></td>
-      <td>周报、事件时间线、事后复盘</td>
-    </tr>
-    <tr>
-      <td><strong>自定义编辑器</strong></td>
-      <td>票据排序板、功能开关编辑器、Prompt 调试器</td>
-    </tr>
+    <tr><td><strong>探索与规划</strong></td><td>多方案并排对比、交互式原型、实现计划时间线</td></tr>
+    <tr><td><strong>代码审查</strong></td><td>带标注的 Diff、PR 说明、模块依赖图</td></tr>
+    <tr><td><strong>设计</strong></td><td>活的设计系统、组件变体一览表</td></tr>
+    <tr><td><strong>原型</strong></td><td>动画沙盒（滑块调时长和缓动）、可点击页面流</td></tr>
+    <tr><td><strong>图表与示意图</strong></td><td>SVG 图解、可交互流程图</td></tr>
+    <tr><td><strong>演示</strong></td><td>方向键翻页的幻灯片，一个 HTML 文件搞定</td></tr>
+    <tr><td><strong>学习与研究</strong></td><td>功能原理讲解、交互式概念演示</td></tr>
+    <tr><td><strong>报告</strong></td><td>周报、事件时间线、事后复盘</td></tr>
+    <tr><td><strong>自定义编辑器</strong></td><td>票据排序板、功能开关编辑器、Prompt 调试器</td></tr>
   </tbody>
 </table>
 
+## 典型工作流
+
+<div style="display:flex;gap:8px;align-items:center;margin:1rem 0;flex-wrap:wrap">
+  <div style="background:var(--color-accent);color:#fff;border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600">1. AI 生成 HTML</div>
+  <span style="color:var(--color-text-light)">→</span>
+  <div style="background:var(--color-accent);color:#fff;border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600">2. 人拖滑块调参数</div>
+  <span style="color:var(--color-text-light)">→</span>
+  <div style="background:var(--color-accent);color:#fff;border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600">3. 点"复制为 Prompt"</div>
+  <span style="color:var(--color-text-light)">→</span>
+  <div style="background:var(--color-accent);color:#fff;border-radius:8px;padding:8px 14px;font-size:0.8rem;font-weight:600">4. 粘贴回 Claude Code</div>
+</div>
+
+整个过程人始终保持在回路里，而不是把所有决策丢给 AI。
+
 ## 怎么开始
 
-不需要任何特殊配置，直接跟 AI 说就行：
+不需要任何特殊配置，直接跟 AI 说：
 
-```text
-帮我做一个 HTML 文件，对比这三种数据库方案的优劣
-```
+<div style="display:grid;gap:8px;margin:1rem 0">
+  <div style="background:var(--color-bg-card);border-radius:8px;padding:10px 14px;font-size:0.82rem;font-family:monospace;border-left:3px solid var(--color-accent-secondary)">
+    帮我做一个 HTML 文件，对比这三种数据库方案的优劣
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:8px;padding:10px 14px;font-size:0.82rem;font-family:monospace;border-left:3px solid var(--color-accent-secondary)">
+    把这份 PR 的 diff 渲染成一个带标注的 HTML 页面
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:8px;padding:10px 14px;font-size:0.82rem;font-family:monospace;border-left:3px solid var(--color-accent-secondary)">
+    做一个交互式的 HTML，让我能用滑块调整动画参数
+  </div>
+</div>
 
-```text
-把这份 PR 的 diff 渲染成一个带标注的 HTML 页面
-```
-
-```text
-做一个交互式的 HTML，让我能用滑块调整动画参数
-```
-
-就这么简单。生成的 `.html` 文件双击就能在浏览器里打开。
+生成的 `.html` 文件双击浏览器打开。
 
 ## 唯一的缺点
 
 <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent-pink)">
-  <strong>Huǎn存</strong>：HTML 的 Git diff 很难读，比 Markdown 差很多。这是目前最大的短板。如果你需要对生成内容做版本控制，Markdown 还是有优势的。
+  <strong>版本控制</strong>：HTML 的 Git diff 很难读，比 Markdown 差很多。如果你需要对生成内容做版本控制，Markdown 还是有优势。
 </div>
 
 ## 我的看法
@@ -185,8 +136,6 @@ Thariq 最后说了一句很打动我的话：
 > "用 HTML 之后，我比以前任何时候都更'在回路里'——与其让 Claude 自己做决定，HTML 让人始终保持参与。"
 
 这和 Vibe Coding 的理念很像。AI 是工具，不是替代品。你需要能看懂它在做什么、能调它做出来的东西、能把它输出的结果继续喂回去。HTML 恰好提供了这种能力。
-
-他还提到，用 Claude Code 生成 HTML "就是更有趣"。这点我同意——看到一个漂亮的、可交互的页面，比看一大段文字舒服多了。
 
 **试试看吧，下次让 AI 输出 HTML。**
 
