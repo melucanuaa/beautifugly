@@ -15,8 +15,8 @@ const projects = (await getCollection('projects'))
     <div class="grid md:grid-cols-2 gap-5">
       {projects.map(project => (
         <a href={`/projects/${project.id}`} class="card p-6 group">
-          <div class="flex items-start justify-between">
-            <h3 class="font-medium text-lg group-hover:text-[var(--color-accent)] transition-colors">{project.data.title}</h3>
+          <div class="flex items-start justify-between gap-3">
+            <h3 class="font-medium text-lg group-hover:text-[var(--color-accent)] transition-colors min-w-0 truncate">{project.data.title}</h3>
             <div class="flex gap-2">
               {project.data.github && (
                 <span class="text-[var(--color-text-light)]" aria-label="GitHub">
@@ -30,7 +30,7 @@ const projects = (await getCollection('projects'))
           <p class="text-sm text-[var(--color-text-light)] mt-3">{project.data.description}</p>
           <div class="flex gap-2 mt-4 flex-wrap">
             {project.data.tags.map(tag => (
-              <span class="text-[10px] px-1.5 py-0.5 bg-[var(--color-accent-purple)]/10 rounded">{tag}</span>
+              <span class="text-xs px-1.5 py-0.5 bg-[var(--color-accent-purple)]/10 rounded">{tag}</span>
             ))}
           </div>
         </a>

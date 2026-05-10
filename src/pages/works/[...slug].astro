@@ -31,9 +31,9 @@ function formatDate(date: Date) {
 
     <header class="mb-8">
       <h1 class="font-[var(--font-pixel)] text-xl md:text-2xl mb-4">{work.data.title}</h1>
-      <div class="flex items-center gap-4 text-sm text-[var(--color-text-light)]">
+      <div class="flex items-center gap-3 flex-wrap text-sm text-[var(--color-text-light)]">
         <span>{formatDate(work.data.date)}</span>
-        <div class="flex gap-2">
+        <div class="flex gap-1.5 flex-wrap">
           {work.data.tags.map(tag => (
             <span class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded">{tag}</span>
           ))}

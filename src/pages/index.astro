@@ -25,7 +25,7 @@ function formatDate(date: Date) {
 
 <Layout>
   {/* Hero */}
-  <section class="max-w-4xl mx-auto px-6 pt-16 pb-12">
+  <section class="max-w-4xl mx-auto px-6 pt-8 md:pt-16 pb-12">
     <div class="flex items-start gap-3 mb-4">
       <span class="font-[var(--font-pixel)] text-3xl md:text-4xl">✦</span>
       <h1 class="font-[var(--font-pixel)] text-2xl md:text-3xl">beautifugly</h1>
@@ -34,7 +34,7 @@ function formatDate(date: Date) {
       分享技术博文、AI 创作、有趣的项目。<br />
       一个记录成长与探索的小站。
     </p>
-    <div class="flex gap-3 mt-6">
+    <div class="flex flex-wrap gap-3 mt-6">
       <a href="/blog" class="pixel-btn bg-[var(--color-accent)] text-white">看看博客</a>
       <a href="/about" class="pixel-btn bg-[var(--color-bg-card)]">了解我</a>
     </div>
@@ -67,7 +67,7 @@ function formatDate(date: Date) {
         <a href={`/blog/${post.id}`} class="card p-5 flex flex-col md:flex-row md:items-center gap-3">
           <span class="text-xs text-[var(--color-text-light)] whitespace-nowrap">{formatDate(post.data.date)}</span>
           <span class="font-medium">{post.data.title}</span>
-          <div class="flex gap-2 md:ml-auto">
+          <div class="flex gap-1.5 flex-wrap md:ml-auto">
             {post.data.tags.map(tag => (
               <span class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded">{tag}</span>
             ))}

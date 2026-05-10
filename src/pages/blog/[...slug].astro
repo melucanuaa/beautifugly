@@ -41,10 +41,10 @@ function formatDate(date: Date) {
 
     <header class="mb-8">
       <h1 class="font-[var(--font-pixel)] text-xl md:text-2xl mb-4">{post.data.title}</h1>
-      <div class="flex items-center gap-4 text-sm text-[var(--color-text-light)] flex-wrap">
+      <div class="flex items-center gap-2 md:gap-4 flex-wrap text-sm text-[var(--color-text-light)]">
         <span>{formatDate(post.data.date)}</span>
         <ReadingTime content={post.body || ''} />
-        <div class="flex gap-2">
+        <div class="flex gap-1.5 flex-wrap">
           {post.data.tags.map(tag => (
             <a href={`/blog?tag=${tag}`} class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded hover:bg-[var(--color-accent)]/20 transition-colors">{tag}</a>
           ))}
@@ -70,7 +70,7 @@ function formatDate(date: Date) {
           </a>
         )}
         {nextPost && (
-          <a href={`/blog/${nextPost.id}`} class="card p-4 group text-right md:ml-auto">
+          <a href={`/blog/${nextPost.id}`} class="card p-4 group text-left md:text-right md:ml-auto">
             <span class="text-xs text-[var(--color-text-light)]">下一篇 →</span>
             <p class="font-medium mt-1 group-hover:text-[var(--color-accent)] transition-colors">{nextPost.data.title}</p>
           </a>
