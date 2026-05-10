@@ -44,6 +44,9 @@ function formatDate(date: Date) {
       <div class="flex items-center gap-2 md:gap-4 flex-wrap text-sm text-[var(--color-text-light)]">
         <span>{formatDate(post.data.date)}</span>
         <ReadingTime content={post.body || ''} />
+        {post.data.category && (
+          <span class="text-xs px-2 py-0.5 bg-[var(--color-accent)] text-white rounded-full">{post.data.category}</span>
+        )}
         <div class="flex gap-1.5 flex-wrap">
           {post.data.tags.map(tag => (
             <a href={`/blog?tag=${tag}`} class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded hover:bg-[var(--color-accent)]/20 transition-colors">{tag}</a>
