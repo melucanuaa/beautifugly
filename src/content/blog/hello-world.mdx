@@ -1,0 +1,375 @@
+---
+title: "Hello World — 从零搭建个人博客的完整记录"
+date: 2026-05-07
+tags: ["随笔", "建站", "Astro", "教程"]
+description: "一个零前端经验的开发者如何用 Astro + Tailwind CSS + Cloudflare Pages 从零搭建个人博客，涵盖技术选型、项目结构、部署上线的完整过程。"
+---
+
+这个网站上线了。这篇博文记录从零搭建的完整过程——技术栈怎么选、项目怎么搭、代码怎么写、怎么部署上线。即使你没碰过前端，也能跟着走一遍。
+
+## 为什么要做个人网站
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1rem 0">
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
+    <div style="font-size:1.5rem;margin-bottom:8px">📝</div>
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:4px">技术笔记</div>
+    <div style="font-size:0.72rem;color:var(--color-text-light)">学过的东西写下来才是自己的</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
+    <div style="font-size:1.5rem;margin-bottom:8px">🎨</div>
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:4px">AI 创作</div>
+    <div style="font-size:0.72rem;color:var(--color-text-light)">用 AI 工具生成的图片和视频</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
+    <div style="font-size:1.5rem;margin-bottom:8px">🚀</div>
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:4px">有趣项目</div>
+    <div style="font-size:0.72rem;color:var(--color-text-light)">那些让我眼前一亮的工具和想法</div>
+  </div>
+</div>
+
+简而言之：想有一个属于自己的角落，不受平台限制，想写什么就写什么。
+
+## 技术栈选择
+
+建一个网站需要三样东西：**写内容的工具**、**生成页面的框架**、**放上去让人访问的平台**。
+
+<div style="background:var(--color-bg-card);border-radius:12px;padding:20px;margin:1.5rem 0;border:1px solid var(--color-border)">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+    <span style="background:var(--color-accent);color:#fff;padding:6px 12px;border-radius:8px;font-weight:600;font-size:0.85rem">内容层</span>
+    <span style="font-size:0.85rem">Markdown / MDX 文件</span>
+    <span style="font-size:0.72rem;color:var(--color-text-light)">写文章就像写 Word 文档一样简单</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+    <span style="background:var(--color-accent-secondary);color:#fff;padding:6px 12px;border-radius:8px;font-weight:600;font-size:0.85rem">框架层</span>
+    <span style="font-size:0.85rem">Astro 6 + Tailwind CSS 4</span>
+    <span style="font-size:0.72rem;color:var(--color-text-light)">把 Markdown 变成漂亮的网页</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span style="background:var(--color-text);color:var(--color-bg);padding:6px 12px;border-radius:8px;font-weight:600;font-size:0.85rem">部署层</span>
+    <span style="font-size:0.85rem">GitHub + Cloudflare Pages</span>
+    <span style="font-size:0.72rem;color:var(--color-text-light)">推送代码自动上线，免费且快</span>
+  </div>
+</div>
+
+### 为什么选 Astro
+
+市面上有很多建站框架，对比一下：
+
+<table>
+  <thead>
+    <tr>
+      <th>框架</th>
+      <th>适合场景</th>
+      <th>学习难度</th>
+      <th>特点</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Astro</strong></td>
+      <td>博客、文档、内容站</td>
+      <td>低</td>
+      <td>默认零 JS，速度极快</td>
+    </tr>
+    <tr>
+      <td>Next.js</td>
+      <td>Web 应用、SaaS</td>
+      <td>中</td>
+      <td>功能全面，但对博客来说太重</td>
+    </tr>
+    <tr>
+      <td>Hugo</td>
+      <td>博客、文档</td>
+      <td>中</td>
+      <td>速度极快，但模板语法难懂</td>
+    </tr>
+    <tr>
+      <td>Hexo</td>
+      <td>博客</td>
+      <td>低</td>
+      <td>老牌博客框架，但更新慢</td>
+    </tr>
+  </tbody>
+</table>
+
+Astro 的核心优势：**Islands Architecture（岛屿架构）**。整个页面默认是纯 HTML，只有需要交互的部分（比如搜索框、主题切换）才会加载少量 JS。这意味着页面加载速度极快。
+
+### 为什么用 Tailwind CSS
+
+Tailwind 是一个 CSS 框架，让你直接在 HTML 里写样式，不用另外写 CSS 文件：
+
+```html
+<!-- 传统方式：写 HTML + 另一个 CSS 文件 -->
+<div class="card">Hello</div>
+<!-- .card { background: white; border-radius: 12px; padding: 16px; } -->
+
+<!-- Tailwind 方式：直接在 HTML 里写 -->
+<div class="bg-white rounded-xl p-4">Hello</div>
+```
+
+好处：不用在 HTML 和 CSS 文件之间来回跳转，改样式就在当前文件改。
+
+### 为什么用 Cloudflare Pages
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:1rem 0">
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">免费</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">每月 500 次构建，无限带宽，个人站绰绰有余。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">自动部署</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">推送到 GitHub 就自动构建上线，零操作。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">全球 CDN</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">内容分发到全球节点，访问速度快。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">自定义域名</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">绑自己的域名，带免费 HTTPS 证书。</div>
+  </div>
+</div>
+
+## 项目结构
+
+用 `pnpm create astro@latest` 初始化后，目录长这样：
+
+```
+src/
+├── components/     # 可复用组件（导航栏、页脚、侧栏等）
+├── content/        # 内容目录
+│   └── blog/       # 博客文章（.md / .mdx 文件）
+├── layouts/        # 页面布局模板
+├── pages/          # 路由页面（文件路径 = URL）
+│   ├── index.astro     # 首页（访问 /）
+│   ├── about.astro     # 关于页（访问 /about）
+│   └── blog/
+│       ├── index.astro         # 博客列表（访问 /blog）
+│       └── [...slug].astro     # 博客详情（访问 /blog/xxx）
+├── styles/         # 全局样式
+└── content.config.ts  # 内容集合定义
+```
+
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent)">
+  <strong>关键概念</strong>：Astro 中 <code>src/pages/</code> 下的文件路径直接映射为 URL。<code>about.astro</code> → <code>/about</code>，<code>blog/index.astro</code> → <code>/blog</code>。这叫"文件路由"，不需要手动配置。
+</div>
+
+## 内容管理：Content Collections
+
+Astro 的 Content Collections 是管理博客文章的核心。你只需要在 `src/content/blog/` 下创建 `.md` 或 `.mdx` 文件，写好 frontmatter（文件头部的元数据），Astro 就能自动读取和渲染。
+
+一篇博文长这样：
+
+```markdown
+---
+title: "文章标题"
+date: 2026-05-07
+tags: ["标签1", "标签2"]
+description: "文章简介"
+image: "/images/cover.jpg"  # 可选封面图
+draft: false                # true = 草稿，不会发布
+---
+
+这里是正文内容，用 Markdown 语法写。
+```
+
+然后在 `src/content.config.ts` 里定义集合的 schema（告诉 Astro 每个字段是什么类型）：
+
+```typescript
+import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+const blog = defineCollection({
+  loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),           // 标题，必填
+    date: z.coerce.date(),       // 日期，必填
+    tags: z.array(z.string()),   // 标签数组
+    description: z.string().optional(),  // 简介，可选
+    image: z.string().optional(),        // 封面图，可选
+    draft: z.boolean().default(false),   // 草稿，默认 false
+  }),
+});
+```
+
+这样做的好处：类型安全、自动生成 TypeScript 类型、frontmatter 不合法时构建会报错。
+
+## 组件化开发
+
+Astro 组件（`.astro` 文件）是 HTML + JS 的混合体：
+
+```astro
+---
+// 这里是组件逻辑（构建时运行）
+const year = new Date().getFullYear();
+---
+
+<!-- 这里是模板（输出 HTML） -->
+<footer>
+  <p>© {year} beautifugly</p>
+</footer>
+
+<style>
+  /* 这里是样式（自动 scoped，不影响其他组件） */
+  footer { text-align: center; padding: 2rem; }
+</style>
+```
+
+这个网站拆成了这些组件：
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:1rem 0">
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Nav — 响应式导航栏</div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Footer — 页脚</div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Sidebar — 信息卡侧栏</div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> SEO — 元标签优化</div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> ThemeToggle — 暗色模式</div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Newsletter — 邮件订阅</div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> TOC — 文章目录</div>
+  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> BackToTop — 回到顶部</div>
+</div>
+
+所有页面共用一个 Layout（`src/layouts/Layout.astro`），它负责组装 Nav、Footer、SEO 等公共组件，页面只需要关注自己的内容。
+
+## 设计系统
+
+样式用 CSS 自定义属性（变量）统一管理，改一处全局生效：
+
+```css
+:root {
+  --color-bg: #fbf9f8;        /* 背景色 */
+  --color-bg-card: #f6f3f2;   /* 卡片背景 */
+  --color-text: #1b1c1c;      /* 主文本 */
+  --color-accent: #9f402d;    /* 赤陶主色 */
+  --color-accent-secondary: #56642b;  /* 鼠尾草绿 */
+}
+
+[data-theme="dark"] {
+  --color-bg: #1b1b1b;        /* 暗色模式自动切换 */
+  --color-accent: #e2725b;
+}
+```
+
+组件类（`.btn-primary`、`.card`、`.chip`）在 `global.css` 中定义，所有页面都能用。
+
+## 部署到 Cloudflare Pages
+
+### 第一步：创建 GitHub 仓库
+
+先把项目代码放到 GitHub 上：
+
+```bash
+# 在项目根目录执行
+git init
+git add .
+git commit -m "初始化项目"
+git branch -M main
+git remote add origin https://github.com/你的用户名/你的仓库名.git
+git push -u origin main
+```
+
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent-secondary)">
+  <strong>没有 GitHub 账号？</strong>去 <a href="https://github.com" target="_blank">github.com</a> 注册一个，免费的。然后点右上角 "+" → "New repository" 创建仓库。
+</div>
+
+### 第二步：连接 Cloudflare Pages
+
+<div style="background:var(--color-bg-card);border-radius:12px;padding:20px;margin:1.5rem 0;border:1px solid var(--color-border)">
+  <div style="display:flex;flex-direction:column;gap:14px;font-size:0.82rem">
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">1</span>
+      <span>登录 <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a>，左侧菜单选 <strong>Workers & Pages</strong></span>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">2</span>
+      <span>点 <strong>Create</strong> → <strong>Pages</strong> → <strong>Connect to Git</strong></span>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">3</span>
+      <span>授权 Cloudflare 访问你的 GitHub，选择刚才创建的仓库</span>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">4</span>
+      <span>配置构建设置：</span>
+    </div>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>设置项</th>
+      <th>值</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Framework preset</td><td><strong>Astro</strong></td></tr>
+    <tr><td>Build command</td><td><code>pnpm build</code></td></tr>
+    <tr><td>Build output directory</td><td><code>dist</code></td></tr>
+    <tr><td>Node.js version</td><td><strong>18</strong> 或更高</td></tr>
+  </tbody>
+</table>
+
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent)">
+  <strong>注意</strong>：Cloudflare Pages 默认用 npm，但这个项目用 pnpm。需要在环境变量里设置 <code>COREPACK_ENABLE=1</code>，这样 Cloudflare 会自动识别 <code>package.json</code> 里的 <code>packageManager</code> 字段，用 pnpm 来安装依赖和构建。
+</div>
+
+点 <strong>Save and Deploy</strong>，等一两分钟，构建完成就能访问了。Cloudflare 会给你一个默认域名：`你的项目名.pages.dev`。
+
+### 第三步：绑定自定义域名
+
+如果想用自己的域名（比如 `beautifugly.com`）：
+
+<div style="background:var(--color-bg-card);border-radius:12px;padding:20px;margin:1.5rem 0;border:1px solid var(--color-border)">
+  <div style="display:flex;flex-direction:column;gap:14px;font-size:0.82rem">
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="background:var(--color-accent-secondary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">1</span>
+      <span>在 Cloudflare Pages 项目里点 <strong>Custom domains</strong></span>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="background:var(--color-accent-secondary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">2</span>
+      <span>输入你的域名，Cloudflare 会自动配置 DNS 和 HTTPS 证书</span>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="background:var(--color-accent-secondary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">3</span>
+      <span>如果域名在 Cloudflare 注册的，DNS 记录会自动添加；否则需要手动加一条 CNAME 记录指向 <code>xxx.pages.dev</code></span>
+    </div>
+  </div>
+</div>
+
+### 部署完成后的日常工作流
+
+整个部署是全自动的，之后每次更新只需要：
+
+```bash
+# 写好文章或改完代码后
+git add .
+git commit -m "新增博文：xxx"
+git push
+
+# Cloudflare Pages 自动检测到推送
+# → 执行 pnpm build
+# → 生成 dist/ 目录
+# → 部署到全球 CDN
+# → 几秒后网站更新
+```
+
+整个过程不需要登录任何后台、不需要手动上传文件、不需要重启服务。**写完推代码，网站自动更新。**
+
+## 接下来计划
+
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1.5rem 0">
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;border-top:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">技术博文</div>
+    <div style="font-size:0.78rem;color:var(--color-text-light)">学习笔记、踩坑记录、工具推荐</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;border-top:3px solid var(--color-accent-secondary)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">AI 作品</div>
+    <div style="font-size:0.78rem;color:var(--color-text-light)">用各种 AI 工具生成的图片和视频</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;border-top:3px solid var(--color-text-light)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">有趣项目</div>
+    <div style="font-size:0.78rem;color:var(--color-text-light)">那些让我眼前一亮的工具和想法</div>
+  </div>
+</div>
+
+希望这个小站能一直更新下去 ✦
