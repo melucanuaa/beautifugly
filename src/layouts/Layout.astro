@@ -39,12 +39,21 @@ const {
     <link rel="alternate" type="application/rss+xml" title="Beautifugly Blog RSS" href="/rss.xml" />
     <SEO title={title} description={description} image={image} type={type} publishDate={publishDate} tags={tags} />
     <title>{title} | Beautifugly</title>
+    <style>
+      /* 桌面端：主内容避开左侧个人信息卡，左右等距 */
+      @media (min-width: 1024px) {
+        .sidebar-aware {
+          margin-left: calc(50vw - 476px);
+          max-width: calc(50vw + 476px);
+        }
+      }
+    </style>
     <meta name="view-transition" content="same-origin" />
   </head>
   <body class="min-h-screen flex flex-col">
     <Nav />
     <Sidebar />
-    <main class="flex-1">
+    <main class="flex-1 sidebar-aware">
       <slot />
     </main>
     <Footer />
