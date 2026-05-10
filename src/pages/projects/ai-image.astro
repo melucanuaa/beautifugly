@@ -3,98 +3,80 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="AI 图片生成" description="使用 GPT IMAGE 2 在线生成图片，支持文生图和图生图">
-  <section class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-    <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline mb-6 inline-block">← 返回项目</a>
+  <section class="ai-page">
+    <a href="/projects" class="back-link">← 返回项目</a>
 
-    <h1 class="font-[var(--font-heading)] text-lg sm:text-xl md:text-2xl mb-2">AI 图片生成</h1>
-    <p class="text-[var(--color-text-light)] text-sm mb-6">使用 GPT IMAGE 2 在线文生图 / 图生图</p>
+    <h1 class="page-title">AI 图片生成</h1>
+    <p class="page-subtitle">使用 GPT IMAGE 2 在线文生图 / 图生图</p>
 
-    <!-- API Key 输入 -->
-    <div class="card p-4 sm:p-6 mb-4">
-      <label class="block text-sm font-medium mb-2">API Key</label>
-      <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+    <!-- API Key -->
+    <div class="ai-card">
+      <label class="field-label">API Key</label>
+      <div class="key-row">
         <input
           id="api-key"
           type="password"
           placeholder="输入你的 API Key"
-          class="flex-1 min-w-0 bg-transparent border border-[var(--color-border)] rounded-lg px-3 sm:px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] transition-colors"
+          class="key-input"
         />
-        <button id="btn-confirm-key" class="btn-primary text-xs shrink-0">确认</button>
+        <button id="btn-confirm-key" class="btn-confirm">确认</button>
       </div>
-      <p id="key-status" class="text-xs mt-2 text-[var(--color-text-light)]"></p>
+      <p id="key-status" class="key-status"></p>
     </div>
 
-    <!-- 模式切换 -->
-    <div class="flex gap-2 mb-4">
-      <button id="tab-txt" class="btn-primary text-xs">文生图</button>
-      <button id="tab-img" class="btn-secondary text-xs">图生图</button>
+    <!-- Mode Toggle -->
+    <div class="mode-toggle">
+      <button id="tab-txt" class="mode-btn active">文生图</button>
+      <button id="tab-img" class="mode-btn">图生图</button>
     </div>
 
-    <!-- 参数面板 -->
-    <div class="card p-4 sm:p-6 mb-4">
-      <!-- 提示词 -->
-      <label class="block text-sm font-medium mb-2">提示词</label>
+    <!-- Parameters -->
+    <div class="ai-card">
+      <label class="field-label">提示词</label>
       <textarea
         id="prompt"
-        rows="3"
+        rows="4"
         placeholder="描述你想要的图片，越详细效果越好..."
-        class="w-full bg-transparent border border-[var(--color-border)] rounded-lg px-3 sm:px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] transition-colors resize-none mb-4"
+        class="prompt-input"
       ></textarea>
 
-      <!-- 尺寸选择 -->
-      <div class="mb-4">
-        <label class="block text-sm font-medium mb-2">尺寸</label>
-        <div id="size-options" class="flex flex-wrap gap-2">
-          <button data-size="1:1" class="size-btn btn-primary text-xs">1:1</button>
-          <button data-size="16:9" class="size-btn btn-secondary text-xs">16:9</button>
-          <button data-size="9:16" class="size-btn btn-secondary text-xs">9:16</button>
-          <button data-size="4:3" class="size-btn btn-secondary text-xs">4:3</button>
-          <button data-size="3:4" class="size-btn btn-secondary text-xs">3:4</button>
-        </div>
+      <label class="field-label">尺寸</label>
+      <div id="size-options" class="size-row">
+        <button data-size="1:1" class="size-btn active">1:1</button>
+        <button data-size="16:9" class="size-btn">16:9</button>
+        <button data-size="9:16" class="size-btn">9:16</button>
+        <button data-size="4:3" class="size-btn">4:3</button>
+        <button data-size="3:4" class="size-btn">3:4</button>
       </div>
 
-      <!-- 图生图：图片上传 -->
-      <div id="upload-area" class="hidden mb-4">
-        <label class="block text-sm font-medium mb-2">上传图片</label>
-        <div
-          id="drop-zone"
-          class="border border-dashed border-[var(--color-border)] rounded-lg p-6 sm:p-8 text-center cursor-pointer hover:border-[var(--color-accent)] transition-colors"
-        >
+      <!-- Upload (img2img) -->
+      <div id="upload-area" class="upload-area hidden">
+        <label class="field-label">上传图片</label>
+        <div id="drop-zone" class="drop-zone">
           <input id="file-input" type="file" accept="image/*" class="hidden" />
-          <p id="upload-text" class="text-sm text-[var(--color-text-light)]">点击或拖拽图片到此处</p>
-          <img id="preview-img" class="hidden max-h-40 sm:max-h-48 mx-auto rounded-lg mt-3" />
+          <p id="upload-text" class="drop-text">点击或拖拽图片到此处</p>
+          <img id="preview-img" class="preview-img hidden" />
         </div>
       </div>
 
-      <!-- 生成按钮 -->
-      <button id="btn-generate" class="btn-primary text-xs w-full" disabled>
-        生成图片
-      </button>
+      <button id="btn-generate" class="btn-generate" disabled>生成图片</button>
     </div>
 
-    <!-- 结果区 -->
-    <div id="result-area" class="hidden">
-      <div class="card p-4 sm:p-6">
-        <h2 class="font-[var(--font-heading)] text-sm mb-4">生成结果</h2>
-
-        <!-- 加载状态 -->
-        <div id="loading" class="hidden text-center py-8 sm:py-12">
-          <div class="inline-block w-8 h-8 border-3 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin mb-3"></div>
-          <p class="text-sm text-[var(--color-text-light)]">正在生成，请稍候...</p>
+    <!-- Result -->
+    <div id="result-area" class="result-area hidden">
+      <div class="ai-card">
+        <h2 class="result-title">生成结果</h2>
+        <div id="loading" class="loading hidden">
+          <div class="spinner"></div>
+          <p class="loading-text">正在生成，请稍候...</p>
         </div>
-
-        <!-- 错误提示 -->
-        <div id="error-msg" class="hidden text-center py-6 sm:py-8">
-          <p class="text-sm text-red-500"></p>
+        <div id="error-msg" class="error-msg hidden">
+          <p></p>
         </div>
-
-        <!-- 图片结果 -->
-        <div id="result-img-area" class="hidden">
-          <img id="result-img" class="w-full rounded-lg mb-4" />
-          <p id="revised-prompt" class="text-xs text-[var(--color-text-light)] mb-3"></p>
-          <a id="btn-download" class="btn-primary text-xs inline-block" download="ai-generated.png">
-            下载图片
-          </a>
+        <div id="result-img-area" class="result-img-area hidden">
+          <img id="result-img" class="result-img" />
+          <p id="revised-prompt" class="revised-prompt"></p>
+          <a id="btn-download" class="btn-confirm" download="ai-generated.png">下载图片</a>
         </div>
       </div>
     </div>
@@ -107,13 +89,11 @@ import Layout from '../../layouts/Layout.astro';
   const API_PATH_EDIT = '/v1/images/edits';
   const TIMEOUT_MS = 60000;
 
-  // State
   let apiKey = '';
   let currentMode: 'txt2img' | 'img2img' = 'txt2img';
   let selectedSize = '1:1';
   let uploadedFile: File | null = null;
 
-  // DOM elements
   const keyInput = document.getElementById('api-key') as HTMLInputElement;
   const btnConfirmKey = document.getElementById('btn-confirm-key')!;
   const keyStatus = document.getElementById('key-status')!;
@@ -135,61 +115,47 @@ import Layout from '../../layouts/Layout.astro';
   const revisedPrompt = document.getElementById('revised-prompt')!;
   const btnDownload = document.getElementById('btn-download') as HTMLAnchorElement;
 
-  // API Key
   btnConfirmKey.addEventListener('click', () => {
     const val = keyInput.value.trim();
     if (!val) {
       keyStatus.textContent = '请输入 API Key';
-      keyStatus.className = 'text-xs mt-2 text-red-500';
+      keyStatus.className = 'key-status error';
       return;
     }
     apiKey = val;
     keyStatus.textContent = '已连接';
-    keyStatus.className = 'text-xs mt-2 text-[var(--color-accent)]';
+    keyStatus.className = 'key-status success';
     updateGenerateBtn();
   });
 
-  // Mode tabs
   function setMode(mode: 'txt2img' | 'img2img') {
     currentMode = mode;
-    if (mode === 'txt2img') {
-      tabTxt.className = 'btn-primary text-xs';
-      tabImg.className = 'btn-secondary text-xs';
-      uploadArea.classList.add('hidden');
-    } else {
-      tabTxt.className = 'btn-secondary text-xs';
-      tabImg.className = 'btn-primary text-xs';
-      uploadArea.classList.remove('hidden');
-    }
+    tabTxt.className = mode === 'txt2img' ? 'mode-btn active' : 'mode-btn';
+    tabImg.className = mode === 'img2img' ? 'mode-btn active' : 'mode-btn';
+    uploadArea.classList.toggle('hidden', mode === 'txt2img');
     updateGenerateBtn();
   }
 
   tabTxt.addEventListener('click', () => setMode('txt2img'));
   tabImg.addEventListener('click', () => setMode('img2img'));
 
-  // Size selection
   sizeOptions.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest('[data-size]') as HTMLElement;
     if (!btn) return;
     selectedSize = btn.dataset.size!;
-    sizeOptions.querySelectorAll('.size-btn').forEach(b => {
-      b.className = 'size-btn btn-secondary text-xs';
-    });
-    btn.className = 'size-btn btn-primary text-xs';
+    sizeOptions.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
   });
 
-  // File upload
   dropZone.addEventListener('click', () => fileInput.click());
   dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
-    dropZone.classList.add('border-[var(--color-accent)]');
+    dropZone.classList.add('dragover');
   });
-  dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('border-[var(--color-accent)]');
-  });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
   dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
-    dropZone.classList.remove('border-[var(--color-accent)]');
+    dropZone.classList.remove('dragover');
     const file = e.dataTransfer?.files[0];
     if (file && file.type.startsWith('image/')) handleFile(file);
   });
@@ -210,7 +176,6 @@ import Layout from '../../layouts/Layout.astro';
     updateGenerateBtn();
   }
 
-  // Generate button state
   function updateGenerateBtn() {
     const hasKey = !!apiKey;
     const hasPrompt = !!promptInput.value.trim();
@@ -220,11 +185,9 @@ import Layout from '../../layouts/Layout.astro';
 
   promptInput.addEventListener('input', updateGenerateBtn);
 
-  // Generate
   btnGenerate.addEventListener('click', async () => {
     if (btnGenerate.disabled) return;
 
-    // Show result area and loading
     resultArea.classList.remove('hidden');
     loading.classList.remove('hidden');
     errorMsg.classList.add('hidden');
@@ -263,9 +226,7 @@ import Layout from '../../layouts/Layout.astro';
 
         response = await fetch(API_BASE + API_PATH_EDIT, {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-          },
+          headers: { 'Authorization': `Bearer ${apiKey}` },
           body: formData,
           signal: AbortSignal.timeout(TIMEOUT_MS),
         });
@@ -285,10 +246,7 @@ import Layout from '../../layouts/Layout.astro';
       const imgUrl = data.data?.[0]?.url;
       if (!imgUrl) throw new Error('未获取到图片地址');
 
-      // Ensure HTTPS
       const secureUrl = imgUrl.replace(/^http:\/\//, 'https://');
-
-      // Show result
       loading.classList.add('hidden');
       resultImgArea.classList.remove('hidden');
       resultImg.src = secureUrl;
@@ -301,13 +259,10 @@ import Layout from '../../layouts/Layout.astro';
       loading.classList.add('hidden');
       errorMsg.classList.remove('hidden');
       const p = errorMsg.querySelector('p')!;
-      if (err.name === 'TimeoutError') {
-        p.textContent = '生成超时，请重试';
-      } else if (err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError')) {
+      if (err.name === 'TimeoutError') p.textContent = '生成超时，请重试';
+      else if (err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError'))
         p.textContent = '网络连接失败，请检查网络或 API 地址';
-      } else {
-        p.textContent = err.message || '生成失败';
-      }
+      else p.textContent = err.message || '生成失败';
     } finally {
       btnGenerate.disabled = false;
       btnGenerate.textContent = '生成图片';
@@ -317,14 +272,289 @@ import Layout from '../../layouts/Layout.astro';
 </script>
 
 <style>
-  .animate-spin {
-    animation: spin 1s linear infinite;
+  .ai-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
   }
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+
+  @media (min-width: 640px) {
+    .ai-page { padding: 3rem 1.5rem; }
   }
-  .border-3 {
-    border-width: 3px;
+
+  .back-link {
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1.5rem;
   }
+  .back-link:hover { text-decoration: underline; }
+
+  .page-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--color-text);
+  }
+  @media (min-width: 640px) {
+    .page-title { font-size: 1.75rem; }
+  }
+
+  .page-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .ai-card {
+    background: var(--color-bg-card);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 12px rgba(159, 64, 45, 0.06);
+  }
+  @media (min-width: 640px) {
+    .ai-card { padding: 1.5rem; }
+  }
+
+  .field-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  /* API Key */
+  .key-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  @media (min-width: 640px) {
+    .key-row {
+      flex-direction: row;
+      gap: 0.75rem;
+    }
+  }
+
+  .key-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .key-input:focus { border-color: var(--color-accent); }
+
+  .key-status {
+    font-size: 0.75rem;
+    margin-top: 0.375rem;
+    color: var(--color-text-light);
+  }
+  .key-status.error { color: #dc2626; }
+  .key-status.success { color: var(--color-accent); }
+
+  .btn-confirm {
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+  .btn-confirm:hover { opacity: 0.9; }
+
+  /* Mode Toggle */
+  .mode-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .mode-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: transparent;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--color-text-light);
+  }
+  .mode-btn.active {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .mode-btn:hover:not(.active) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  /* Prompt */
+  .prompt-input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.85rem;
+    outline: none;
+    resize: none;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  .prompt-input:focus { border-color: var(--color-accent); }
+
+  /* Size */
+  .size-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .size-btn {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: transparent;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--color-text-light);
+  }
+  .size-btn.active {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+  .size-btn:hover:not(.active) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  /* Upload */
+  .upload-area { margin-bottom: 1rem; }
+
+  .drop-zone {
+    border: 1.5px dashed var(--color-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--color-accent);
+  }
+
+  .drop-text {
+    font-size: 0.82rem;
+    color: var(--color-text-light);
+  }
+
+  .preview-img {
+    max-height: 10rem;
+    margin: 0.75rem auto 0;
+    border-radius: 8px;
+    display: block;
+  }
+  @media (min-width: 640px) {
+    .preview-img { max-height: 12rem; }
+  }
+
+  /* Generate Button */
+  .btn-generate {
+    width: 100%;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-generate:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-generate:hover:not(:disabled) { opacity: 0.9; }
+
+  /* Result */
+  .result-area { margin-top: 0; }
+
+  .result-title {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .loading {
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid var(--color-accent);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 0.75rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-size: 0.82rem;
+    color: var(--color-text-light);
+  }
+
+  .error-msg {
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+  .error-msg p {
+    font-size: 0.82rem;
+    color: #dc2626;
+  }
+
+  .result-img-area { text-align: center; }
+
+  .result-img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .revised-prompt {
+    font-size: 0.78rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  .hidden { display: none !important; }
 </style>
