@@ -7,7 +7,6 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const allTags = [...new Set(posts.flatMap(p => p.data.tags))];
-const allCategories = [...new Set(posts.map(p => p.data.category).filter(Boolean))];
 const CATEGORIES = ['学习心得', '项目推荐', '踩坑记录', '东拉西扯'];
 
 function formatDate(date: Date) {
@@ -16,122 +15,169 @@ function formatDate(date: Date) {
 ---
 
 <Layout title="博客">
-  <section class="blog-page">
-    <h1 class="page-title">博客</h1>
-    <p class="page-desc">技术笔记、学习心得、踩坑记录</p>
+  <div class="blog-shell">
+    <!-- 主内容：居中 max-w-4xl -->
+    <section class="blog-main">
+      <h1 class="page-title">博客</h1>
+      <p class="page-desc">技术笔记、学习心得、踩坑记录</p>
 
-    <div class="blog-layout">
-      <!-- 左侧：文章列表 -->
-      <div class="blog-main">
-        {allTags.length > 0 && (
-          <div class="tag-row">
-            <button class="tag-btn active" data-tag="all">全部</button>
-            {allTags.map(tag => (
-              <button class="tag-btn" data-tag={tag}>{tag}</button>
-            ))}
-          </div>
-        )}
-
-        <div class="post-list" id="post-list">
-          {posts.map(post => (
-            <a href={`/blog/${post.id}`} class="post-card" data-tags={post.data.tags.join(',')} data-category={post.data.category || ''}>
-              <div class="post-head">
-                <span class="post-date">{formatDate(post.data.date)}</span>
-                {post.data.category && (
-                  <span class="post-cat">{post.data.category}</span>
-                )}
-              </div>
-              <h2 class="post-title">{post.data.title}</h2>
-              <div class="post-tags">
-                {post.data.tags.map(tag => (
-                  <span class="post-tag">{tag}</span>
-                ))}
-              </div>
-              {post.data.description && (
-                <p class="post-desc">{post.data.description}</p>
-              )}
-            </a>
+      {allTags.length > 0 && (
+        <div class="tag-row">
+          <button class="tag-btn active" data-tag="all">全部</button>
+          {allTags.map(tag => (
+            <button class="tag-btn" data-tag={tag}>{tag}</button>
           ))}
-          {posts.length === 0 && (
-            <p class="empty-hint">还没有文章，敬请期待</p>
-          )}
+        </div>
+      )}
+
+      <div class="post-list" id="post-list">
+        {posts.map(post => (
+          <a href={`/blog/${post.id}`} class="post-card" data-tags={post.data.tags.join(',')} data-category={post.data.category || ''}>
+            <div class="post-head">
+              <span class="post-date">{formatDate(post.data.date)}</span>
+              {post.data.category && (
+                <span class="post-cat">{post.data.category}</span>
+              )}
+            </div>
+            <h2 class="post-title">{post.data.title}</h2>
+            <div class="post-tags">
+              {post.data.tags.map(tag => (
+                <span class="post-tag">{tag}</span>
+              ))}
+            </div>
+            {post.data.description && (
+              <p class="post-desc">{post.data.description}</p>
+            )}
+          </a>
+        ))}
+        {posts.length === 0 && (
+          <p class="empty-hint">还没有文章，敬请期待</p>
+        )}
+      </div>
+    </section>
+
+    <!-- 右侧：分类筛选，利用右侧空白 -->
+    <aside class="blog-sidebar">
+      <div class="cat-card">
+        <h3 class="cat-title">分类筛选</h3>
+        <div class="cat-list">
+          <label class="cat-item">
+            <input type="checkbox" class="cat-check" data-category="all" checked />
+            <span class="cat-label">全部</span>
+          </label>
+          {CATEGORIES.map(cat => (
+            <label class="cat-item">
+              <input type="checkbox" class="cat-check" data-category={cat} />
+              <span class="cat-label">{cat}</span>
+            </label>
+          ))}
         </div>
       </div>
-
-      <!-- 右侧：分类筛选 -->
-      <aside class="blog-sidebar">
-        <div class="cat-card">
-          <h3 class="cat-title">分类</h3>
-          <div class="cat-list">
-            <button class="cat-btn active" data-category="all">全部</button>
-            {CATEGORIES.map(cat => (
-              <button class="cat-btn" data-category={cat}>{cat}</button>
-            ))}
-          </div>
-        </div>
-      </aside>
-    </div>
-  </section>
+    </aside>
+  </div>
 </Layout>
 
 <script>
-  // 分类筛选
-  document.querySelectorAll('.cat-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.getAttribute('data-category');
+  const catChecks = document.querySelectorAll<HTMLInputElement>('.cat-check');
+  const tagBtns = document.querySelectorAll<HTMLElement>('.tag-btn');
 
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  function getSelectedCategories(): string[] {
+    const selected: string[] = [];
+    catChecks.forEach(ch => {
+      if (ch.checked) selected.push(ch.getAttribute('data-category') || '');
+    });
+    return selected;
+  }
 
-      document.querySelectorAll('.post-item, .post-card').forEach(item => {
-        const itemCat = item.getAttribute('data-category') || '';
-        if (cat === 'all' || itemCat === cat) {
-          (item as HTMLElement).style.display = '';
-        } else {
-          (item as HTMLElement).style.display = 'none';
+  function applyFilter() {
+    const cats = getSelectedCategories();
+    const hasAll = cats.includes('all');
+    document.querySelectorAll<HTMLElement>('.post-card').forEach(item => {
+      const itemCat = item.getAttribute('data-category') || '';
+      item.style.display = (hasAll || cats.includes(itemCat)) ? '' : 'none';
+    });
+  }
+
+  // 分类复选框
+  catChecks.forEach(ch => {
+    ch.addEventListener('change', () => {
+      const cat = ch.getAttribute('data-category');
+      if (cat === 'all') {
+        // 勾选"全部"→ 取消其他；取消"全部"→ 不影响
+        if (ch.checked) {
+          catChecks.forEach(c => { if (c !== ch) c.checked = false; });
         }
-      });
+      } else {
+        // 勾选其他→ 取消"全部"
+        if (ch.checked) {
+          const allCh = document.querySelector<HTMLInputElement>('.cat-check[data-category="all"]');
+          if (allCh) allCh.checked = false;
+        }
+        // 全部取消→ 自动勾选"全部"
+        const anyChecked = [...catChecks].some(c => c.getAttribute('data-category') !== 'all' && c.checked);
+        if (!anyChecked) {
+          const allCh = document.querySelector<HTMLInputElement>('.cat-check[data-category="all"]');
+          if (allCh) allCh.checked = true;
+        }
+      }
+      applyFilter();
 
       // 重置 tag 筛选
-      document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
-      const allTagBtn = document.querySelector('.tag-btn[data-tag="all"]');
+      tagBtns.forEach(b => b.classList.remove('active'));
+      const allTagBtn = document.querySelector<HTMLElement>('.tag-btn[data-tag="all"]');
       if (allTagBtn) allTagBtn.classList.add('active');
     });
   });
 
   // 标签筛选
-  document.querySelectorAll('.tag-btn').forEach(btn => {
+  tagBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const tag = btn.getAttribute('data-tag');
-
-      document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+      tagBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      document.querySelectorAll('.post-item, .post-card').forEach(item => {
+      document.querySelectorAll<HTMLElement>('.post-card').forEach(item => {
         const tags = item.getAttribute('data-tags')?.split(',') || [];
-        if (tag === 'all' || tags.includes(tag)) {
-          (item as HTMLElement).style.display = '';
-        } else {
-          (item as HTMLElement).style.display = 'none';
-        }
+        item.style.display = (tag === 'all' || tags.includes(tag || '')) ? '' : 'none';
       });
 
       // 重置分类筛选
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      const allCatBtn = document.querySelector('.cat-btn[data-category="all"]');
-      if (allCatBtn) allCatBtn.classList.add('active');
+      catChecks.forEach(c => { c.checked = c.getAttribute('data-category') === 'all'; });
     });
   });
 </script>
 
 <style>
-  .blog-page {
-    max-width: 960px;
-    margin: 0 auto;
+  .blog-shell {
+    display: flex;
+    justify-content: center;
     padding: 2rem 1rem;
+    gap: 2rem;
+    position: relative;
   }
   @media (min-width: 640px) {
-    .blog-page { padding: 3rem 1.5rem; }
+    .blog-shell { padding: 3rem 1.5rem; }
+  }
+
+  /* 主内容：固定 max-w-4xl，居中 */
+  .blog-main {
+    width: 100%;
+    max-width: 56rem; /* max-w-4xl */
+  }
+
+  /* 侧边栏：桌面端贴右侧，移动端隐藏 */
+  .blog-sidebar {
+    display: none;
+  }
+  @media (min-width: 1100px) {
+    .blog-sidebar {
+      display: block;
+      width: 180px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 5rem;
+      align-self: flex-start;
+    }
   }
 
   .page-title {
@@ -151,33 +197,6 @@ function formatDate(date: Date) {
     margin-bottom: 1.5rem;
   }
 
-  /* 两栏布局 */
-  .blog-layout {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 1.5rem;
-  }
-  @media (min-width: 768px) {
-    .blog-layout {
-      flex-direction: row;
-      align-items: flex-start;
-    }
-  }
-
-  .blog-main { flex: 1; min-width: 0; }
-
-  .blog-sidebar {
-    width: 100%;
-  }
-  @media (min-width: 768px) {
-    .blog-sidebar {
-      width: 200px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 5rem;
-    }
-  }
-
   /* 分类卡片 */
   .cat-card {
     background: var(--color-bg-card);
@@ -188,7 +207,7 @@ function formatDate(date: Date) {
 
   .cat-title {
     font-family: var(--font-heading);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
     margin-bottom: 0.75rem;
     color: var(--color-text);
@@ -196,35 +215,29 @@ function formatDate(date: Date) {
 
   .cat-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.5rem;
   }
-  @media (min-width: 768px) {
-    .cat-list {
-      flex-direction: column;
-    }
+
+  .cat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--color-text);
   }
 
-  .cat-btn {
-    padding: 0.375rem 0.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    background: transparent;
-    font-size: 0.78rem;
-    font-weight: 500;
+  .cat-check {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-accent);
     cursor: pointer;
-    transition: all 0.2s;
-    color: var(--color-text-light);
-    white-space: nowrap;
+    flex-shrink: 0;
   }
-  .cat-btn.active {
-    background: var(--color-accent);
-    color: #fff;
-    border-color: var(--color-accent);
-  }
-  .cat-btn:hover:not(.active) {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
+
+  .cat-label {
+    user-select: none;
   }
 
   /* 标签筛选 */
@@ -323,17 +336,10 @@ function formatDate(date: Date) {
   .post-tag {
     font-size: 0.7rem;
     padding: 0.15rem 0.5rem;
-    background: var(--color-accent);
-    color: var(--color-accent);
-    border-radius: 999px;
-    opacity: 0.15;
-    font-weight: 500;
-  }
-  /* 修正：用 bg 的 10% 透明度 */
-  .post-tag {
     background: color-mix(in srgb, var(--color-accent) 12%, transparent);
     color: var(--color-accent);
-    opacity: 1;
+    border-radius: 999px;
+    font-weight: 500;
   }
 
   .post-desc {
