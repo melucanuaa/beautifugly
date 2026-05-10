@@ -13,17 +13,17 @@ description: "一个零前端经验的开发者如何用 Astro + Tailwind CSS + 
 
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1rem 0">
   <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
-    <div style="font-size:1.5rem;margin-bottom:8px">📝</div>
+    <div style="font-size:1.1rem;margin-bottom:8px;color:var(--color-accent);font-weight:700">01</div>
     <div style="font-weight:600;font-size:0.85rem;margin-bottom:4px">技术笔记</div>
     <div style="font-size:0.72rem;color:var(--color-text-light)">学过的东西写下来才是自己的</div>
   </div>
   <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
-    <div style="font-size:1.5rem;margin-bottom:8px">🎨</div>
+    <div style="font-size:1.1rem;margin-bottom:8px;color:var(--color-accent);font-weight:700">02</div>
     <div style="font-weight:600;font-size:0.85rem;margin-bottom:4px">AI 创作</div>
     <div style="font-size:0.72rem;color:var(--color-text-light)">用 AI 工具生成的图片和视频</div>
   </div>
   <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
-    <div style="font-size:1.5rem;margin-bottom:8px">🚀</div>
+    <div style="font-size:1.1rem;margin-bottom:8px;color:var(--color-accent);font-weight:700">03</div>
     <div style="font-weight:600;font-size:0.85rem;margin-bottom:4px">有趣项目</div>
     <div style="font-size:0.72rem;color:var(--color-text-light)">那些让我眼前一亮的工具和想法</div>
   </div>
@@ -93,7 +93,9 @@ description: "一个零前端经验的开发者如何用 Astro + Tailwind CSS + 
   </tbody>
 </table>
 
-Astro 的核心优势：**Islands Architecture（岛屿架构）**。整个页面默认是纯 HTML，只有需要交互的部分（比如搜索框、主题切换）才会加载少量 JS。这意味着页面加载速度极快。
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent)">
+  <strong>Astro 核心优势：Islands Architecture</strong> — 整个页面默认纯 HTML，只有需要交互的部分（搜索框、主题切换）才加载少量 JS，页面加载速度极快。
+</div>
 
 ### 为什么用 Tailwind CSS
 
@@ -108,7 +110,9 @@ Tailwind 是一个 CSS 框架，让你直接在 HTML 里写样式，不用另外
 <div class="bg-white rounded-xl p-4">Hello</div>
 ```
 
-好处：不用在 HTML 和 CSS 文件之间来回跳转，改样式就在当前文件改。
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent-secondary)">
+  <strong>好处</strong>：不用在 HTML 和 CSS 文件之间来回跳转，改样式就在当前文件改。
+</div>
 
 ### 为什么用 Cloudflare Pages
 
@@ -353,18 +357,19 @@ git push
 
 ## 接下来计划
 
-<table>
-  <thead>
-    <tr>
-      <th>内容类型</th>
-      <th>方向</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>技术博文</strong></td><td>学习笔记、踩坑记录、工具推荐</td></tr>
-    <tr><td><strong>AI 作品</strong></td><td>用各种 AI 工具生成的图片和视频</td></tr>
-    <tr><td><strong>有趣项目</strong></td><td>那些让我眼前一亮的工具和想法</td></tr>
-  </tbody>
-</table>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1rem 0">
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent-secondary)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">技术博文</div>
+    <div style="font-size:0.78rem;color:var(--color-text-light)">学习笔记、踩坑记录、工具推荐</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">AI 作品</div>
+    <div style="font-size:0.78rem;color:var(--color-text-light)">用各种 AI 工具生成的图片和视频</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent-pink)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">有趣项目</div>
+    <div style="font-size:0.78rem;color:var(--color-text-light)">那些让我眼前一亮的工具和想法</div>
+  </div>
+</div>
 
-希望这个小站能一直更新下去 ✦
+希望这个小站能一直更新下去。
