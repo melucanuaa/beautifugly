@@ -9,28 +9,42 @@ description: "为什么用 Claude Code 时，让 AI 输出 HTML 比 Markdown 好
 
 ## 先说结论
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1rem 0">
-  <div style="background:var(--color-bg-card);border-radius:12px;padding:18px;border:1px solid var(--color-border)">
-    <div style="font-weight:700;font-size:0.95rem;margin-bottom:14px;color:var(--color-text-light)">Markdown</div>
-    <div style="display:flex;flex-direction:column;gap:10px;font-size:0.82rem">
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">信息密度</span><span>纯文本，最多加个表格</span></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">可读性</span><span>超过 100 行就没人看</span></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">可分享性</span><span>得用渲染器才能看</span></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">交互性</span><span>没有</span></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">生成速度</span><strong>快</strong></div>
-    </div>
-  </div>
-  <div style="background:var(--color-bg-card);border-radius:12px;padding:18px;border:2px solid var(--color-accent)">
-    <div style="font-weight:700;font-size:0.95rem;margin-bottom:14px;color:var(--color-accent)">HTML</div>
-    <div style="display:flex;flex-direction:column;gap:10px;font-size:0.82rem">
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">信息密度</span><strong>表格、图表、SVG、交互控件</strong></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">可读性</span><strong>标签页、折叠块、高亮</strong></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">可分享性</span><strong>浏览器直接打开</strong></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">交互性</span><strong>滑块、按钮、实时预览</strong></div>
-      <div style="display:flex;justify-content:space-between"><span style="color:var(--color-text-light)">生成速度</span><span>慢 2-4x，但值得</span></div>
-    </div>
-  </div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>对比项</th>
+      <th>Markdown</th>
+      <th>HTML</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>信息密度</strong></td>
+      <td>纯文本，最多加个表格</td>
+      <td>表格、图表、SVG、交互控件，什么都能放</td>
+    </tr>
+    <tr>
+      <td><strong>可读性</strong></td>
+      <td>超过 100 行就没人想看</td>
+      <td>标签页、折叠块、高亮，扫一眼就懂</td>
+    </tr>
+    <tr>
+      <td><strong>可分享性</strong></td>
+      <td>得用渲染器才能看</td>
+      <td>浏览器直接打开，发个链接就行</td>
+    </tr>
+    <tr>
+      <td><strong>交互性</strong></td>
+      <td>没有</td>
+      <td>滑块、按钮、实时预览，调完参数复制回 AI</td>
+    </tr>
+    <tr>
+      <td><strong>生成速度</strong></td>
+      <td>快</td>
+      <td>慢 2-4x，但结果值得</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 为什么 HTML 更好
 
