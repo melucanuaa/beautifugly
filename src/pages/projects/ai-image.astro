@@ -3,48 +3,48 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="AI 图片生成" description="使用 GPT IMAGE 2 在线生成图片，支持文生图和图生图">
-  <section class="max-w-4xl mx-auto px-6 py-12">
-    <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回项目</a>
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline mb-6 inline-block">← 返回项目</a>
 
-    <h1 class="font-[var(--font-heading)] text-xl md:text-2xl mb-2">✦ AI 图片生成</h1>
-    <p class="text-[var(--color-text-light)] mb-8">使用 GPT IMAGE 2 在线文生图 / 图生图</p>
+    <h1 class="font-[var(--font-heading)] text-lg sm:text-xl md:text-2xl mb-2">AI 图片生成</h1>
+    <p class="text-[var(--color-text-light)] text-sm mb-6">使用 GPT IMAGE 2 在线文生图 / 图生图</p>
 
     <!-- API Key 输入 -->
-    <div class="card p-6 mb-6">
+    <div class="card p-4 sm:p-6 mb-4">
       <label class="block text-sm font-medium mb-2">API Key</label>
-      <div class="flex gap-3">
+      <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
         <input
           id="api-key"
           type="password"
           placeholder="输入你的 API Key"
-          class="flex-1 bg-transparent border border-[var(--color-border)] rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] transition-colors"
+          class="flex-1 min-w-0 bg-transparent border border-[var(--color-border)] rounded-lg px-3 sm:px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] transition-colors"
         />
-        <button id="btn-confirm-key" class="btn-primary text-xs">确认</button>
+        <button id="btn-confirm-key" class="btn-primary text-xs shrink-0">确认</button>
       </div>
       <p id="key-status" class="text-xs mt-2 text-[var(--color-text-light)]"></p>
     </div>
 
     <!-- 模式切换 -->
-    <div class="flex gap-2 mb-6">
+    <div class="flex gap-2 mb-4">
       <button id="tab-txt" class="btn-primary text-xs">文生图</button>
       <button id="tab-img" class="btn-secondary text-xs">图生图</button>
     </div>
 
     <!-- 参数面板 -->
-    <div class="card p-6 mb-6">
+    <div class="card p-4 sm:p-6 mb-4">
       <!-- 提示词 -->
       <label class="block text-sm font-medium mb-2">提示词</label>
       <textarea
         id="prompt"
-        rows="4"
+        rows="3"
         placeholder="描述你想要的图片，越详细效果越好..."
-        class="w-full bg-transparent border border-[var(--color-border)] rounded-lg px-4 py-3 text-sm outline-none focus:border-[var(--color-accent)] transition-colors resize-none mb-4"
+        class="w-full bg-transparent border border-[var(--color-border)] rounded-lg px-3 sm:px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] transition-colors resize-none mb-4"
       ></textarea>
 
       <!-- 尺寸选择 -->
-      <div class="flex flex-wrap items-center gap-4 mb-4">
-        <label class="text-sm font-medium">尺寸</label>
-        <div id="size-options" class="flex gap-2">
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-2">尺寸</label>
+        <div id="size-options" class="flex flex-wrap gap-2">
           <button data-size="1:1" class="size-btn btn-primary text-xs">1:1</button>
           <button data-size="16:9" class="size-btn btn-secondary text-xs">16:9</button>
           <button data-size="9:16" class="size-btn btn-secondary text-xs">9:16</button>
@@ -58,11 +58,11 @@ import Layout from '../../layouts/Layout.astro';
         <label class="block text-sm font-medium mb-2">上传图片</label>
         <div
           id="drop-zone"
-          class="border border-dashed border-[var(--color-border)] rounded-lg p-8 text-center cursor-pointer hover:border-[var(--color-accent)] transition-colors"
+          class="border border-dashed border-[var(--color-border)] rounded-lg p-6 sm:p-8 text-center cursor-pointer hover:border-[var(--color-accent)] transition-colors"
         >
           <input id="file-input" type="file" accept="image/*" class="hidden" />
           <p id="upload-text" class="text-sm text-[var(--color-text-light)]">点击或拖拽图片到此处</p>
-          <img id="preview-img" class="hidden max-h-48 mx-auto rounded-lg mt-3" />
+          <img id="preview-img" class="hidden max-h-40 sm:max-h-48 mx-auto rounded-lg mt-3" />
         </div>
       </div>
 
@@ -74,29 +74,27 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- 结果区 -->
     <div id="result-area" class="hidden">
-      <div class="card p-6">
-        <h2 class="font-[var(--font-heading)] text-sm mb-4">✦ 生成结果</h2>
+      <div class="card p-4 sm:p-6">
+        <h2 class="font-[var(--font-heading)] text-sm mb-4">生成结果</h2>
 
         <!-- 加载状态 -->
-        <div id="loading" class="hidden text-center py-12">
+        <div id="loading" class="hidden text-center py-8 sm:py-12">
           <div class="inline-block w-8 h-8 border-3 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin mb-3"></div>
           <p class="text-sm text-[var(--color-text-light)]">正在生成，请稍候...</p>
         </div>
 
         <!-- 错误提示 -->
-        <div id="error-msg" class="hidden text-center py-8">
+        <div id="error-msg" class="hidden text-center py-6 sm:py-8">
           <p class="text-sm text-red-500"></p>
         </div>
 
         <!-- 图片结果 -->
         <div id="result-img-area" class="hidden">
           <img id="result-img" class="w-full rounded-lg mb-4" />
-          <div class="flex justify-between items-center">
-            <p id="revised-prompt" class="text-xs text-[var(--color-text-light)] flex-1 mr-4"></p>
-            <a id="btn-download" class="btn-primary text-xs" download="ai-generated.png">
-              下载图片
-            </a>
-          </div>
+          <p id="revised-prompt" class="text-xs text-[var(--color-text-light)] mb-3"></p>
+          <a id="btn-download" class="btn-primary text-xs inline-block" download="ai-generated.png">
+            下载图片
+          </a>
         </div>
       </div>
     </div>
@@ -146,7 +144,7 @@ import Layout from '../../layouts/Layout.astro';
       return;
     }
     apiKey = val;
-    keyStatus.textContent = '✓ 已连接';
+    keyStatus.textContent = '已连接';
     keyStatus.className = 'text-xs mt-2 text-[var(--color-accent)]';
     updateGenerateBtn();
   });
