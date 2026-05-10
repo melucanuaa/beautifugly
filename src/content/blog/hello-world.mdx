@@ -37,23 +37,20 @@ description: "一个零前端经验的开发者如何用 Astro + Tailwind CSS + 
 
 建一个网站需要三样东西：**写内容的工具**、**生成页面的框架**、**放上去让人访问的平台**。
 
-<div style="background:var(--color-bg-card);border-radius:12px;padding:20px;margin:1.5rem 0;border:1px solid var(--color-border)">
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-    <span style="background:var(--color-accent);color:#fff;padding:6px 12px;border-radius:8px;font-weight:600;font-size:0.85rem">内容层</span>
-    <span style="font-size:0.85rem">Markdown / MDX 文件</span>
-    <span style="font-size:0.72rem;color:var(--color-text-light)">写文章就像写 Word 文档一样简单</span>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-    <span style="background:var(--color-accent-secondary);color:#fff;padding:6px 12px;border-radius:8px;font-weight:600;font-size:0.85rem">框架层</span>
-    <span style="font-size:0.85rem">Astro 6 + Tailwind CSS 4</span>
-    <span style="font-size:0.72rem;color:var(--color-text-light)">把 Markdown 变成漂亮的网页</span>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <span style="background:var(--color-text);color:var(--color-bg);padding:6px 12px;border-radius:8px;font-weight:600;font-size:0.85rem">部署层</span>
-    <span style="font-size:0.85rem">GitHub + Cloudflare Pages</span>
-    <span style="font-size:0.72rem;color:var(--color-text-light)">推送代码自动上线，免费且快</span>
-  </div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>层级</th>
+      <th>技术</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>内容层</strong></td><td>Markdown / MDX</td><td>写文章就像写 Word 文档一样简单</td></tr>
+    <tr><td><strong>框架层</strong></td><td>Astro 6 + Tailwind CSS 4</td><td>把 Markdown 变成漂亮的网页</td></tr>
+    <tr><td><strong>部署层</strong></td><td>GitHub + Cloudflare Pages</td><td>推送代码自动上线，免费且快</td></tr>
+  </tbody>
+</table>
 
 ### 为什么选 Astro
 
@@ -115,24 +112,20 @@ Tailwind 是一个 CSS 框架，让你直接在 HTML 里写样式，不用另外
 
 ### 为什么用 Cloudflare Pages
 
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:1rem 0">
-  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
-    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">免费</div>
-    <div style="font-size:0.8rem;color:var(--color-text-light)">每月 500 次构建，无限带宽，个人站绰绰有余。</div>
-  </div>
-  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
-    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">自动部署</div>
-    <div style="font-size:0.8rem;color:var(--color-text-light)">推送到 GitHub 就自动构建上线，零操作。</div>
-  </div>
-  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
-    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">全球 CDN</div>
-    <div style="font-size:0.8rem;color:var(--color-text-light)">内容分发到全球节点，访问速度快。</div>
-  </div>
-  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px">
-    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">自定义域名</div>
-    <div style="font-size:0.8rem;color:var(--color-text-light)">绑自己的域名，带免费 HTTPS 证书。</div>
-  </div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>优势</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>免费</strong></td><td>每月 500 次构建，无限带宽，个人站绰绰有余</td></tr>
+    <tr><td><strong>自动部署</strong></td><td>推送到 GitHub 就自动构建上线，零操作</td></tr>
+    <tr><td><strong>全球 CDN</strong></td><td>内容分发到全球节点，访问速度快</td></tr>
+    <tr><td><strong>自定义域名</strong></td><td>绑自己的域名，带免费 HTTPS 证书</td></tr>
+  </tbody>
+</table>
 
 ## 项目结构
 
@@ -221,16 +214,24 @@ const year = new Date().getFullYear();
 
 这个网站拆成了这些组件：
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:1rem 0">
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Nav — 响应式导航栏</div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Footer — 页脚</div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Sidebar — 信息卡侧栏</div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> SEO — 元标签优化</div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> ThemeToggle — 暗色模式</div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> Newsletter — 邮件订阅</div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> TOC — 文章目录</div>
-  <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem"><span style="color:var(--color-accent)">●</span> BackToTop — 回到顶部</div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>用途</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>Nav</code></td><td>响应式导航栏，支持搜索 (Ctrl+K)、移动端菜单、主题切换</td></tr>
+    <tr><td><code>Footer</code></td><td>页脚，显示版权和社交链接</td></tr>
+    <tr><td><code>Sidebar</code></td><td>左侧固定信息卡，显示个人信息和技术栈</td></tr>
+    <tr><td><code>SEO</code></td><td>生成 meta 标签、Open Graph、结构化数据</td></tr>
+    <tr><td><code>ThemeToggle</code></td><td>暗色/亮色模式切换按钮</td></tr>
+    <tr><td><code>Newsletter</code></td><td>邮件订阅表单组件</td></tr>
+    <tr><td><code>TOC</code></td><td>文章目录，自动从标题生成</td></tr>
+    <tr><td><code>BackToTop</code></td><td>滚动超过 300px 后显示的回到顶部按钮</td></tr>
+  </tbody>
+</table>
 
 所有页面共用一个 Layout（`src/layouts/Layout.astro`），它负责组装 Nav、Footer、SEO 等公共组件，页面只需要关注自己的内容。
 
@@ -277,26 +278,20 @@ git push -u origin main
 
 ### 第二步：连接 Cloudflare Pages
 
-<div style="background:var(--color-bg-card);border-radius:12px;padding:20px;margin:1.5rem 0;border:1px solid var(--color-border)">
-  <div style="display:flex;flex-direction:column;gap:14px;font-size:0.82rem">
-    <div style="display:flex;align-items:flex-start;gap:10px">
-      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">1</span>
-      <span>登录 <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a>，左侧菜单选 <strong>Workers & Pages</strong></span>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:10px">
-      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">2</span>
-      <span>点 <strong>Create</strong> → <strong>Pages</strong> → <strong>Connect to Git</strong></span>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:10px">
-      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">3</span>
-      <span>授权 Cloudflare 访问你的 GitHub，选择刚才创建的仓库</span>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:10px">
-      <span style="background:var(--color-accent);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">4</span>
-      <span>配置构建设置：</span>
-    </div>
-  </div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>步骤</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>1</strong></td><td>登录 <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a>，左侧菜单选 <strong>Workers & Pages</strong></td></tr>
+    <tr><td><strong>2</strong></td><td>点 <strong>Create</strong> → <strong>Pages</strong> → <strong>Connect to Git</strong></td></tr>
+    <tr><td><strong>3</strong></td><td>授权 Cloudflare 访问你的 GitHub，选择刚才创建的仓库</td></tr>
+    <tr><td><strong>4</strong></td><td>配置构建设置（见下表），然后点 <strong>Save and Deploy</strong></td></tr>
+  </tbody>
+</table>
 
 <table>
   <thead>
@@ -323,22 +318,19 @@ git push -u origin main
 
 如果想用自己的域名（比如 `beautifugly.com`）：
 
-<div style="background:var(--color-bg-card);border-radius:12px;padding:20px;margin:1.5rem 0;border:1px solid var(--color-border)">
-  <div style="display:flex;flex-direction:column;gap:14px;font-size:0.82rem">
-    <div style="display:flex;align-items:flex-start;gap:10px">
-      <span style="background:var(--color-accent-secondary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">1</span>
-      <span>在 Cloudflare Pages 项目里点 <strong>Custom domains</strong></span>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:10px">
-      <span style="background:var(--color-accent-secondary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">2</span>
-      <span>输入你的域名，Cloudflare 会自动配置 DNS 和 HTTPS 证书</span>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:10px">
-      <span style="background:var(--color-accent-secondary);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0">3</span>
-      <span>如果域名在 Cloudflare 注册的，DNS 记录会自动添加；否则需要手动加一条 CNAME 记录指向 <code>xxx.pages.dev</code></span>
-    </div>
-  </div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>步骤</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>1</strong></td><td>在 Cloudflare Pages 项目里点 <strong>Custom domains</strong></td></tr>
+    <tr><td><strong>2</strong></td><td>输入你的域名，Cloudflare 会自动配置 DNS 和 HTTPS 证书</td></tr>
+    <tr><td><strong>3</strong></td><td>域名在 Cloudflare 注册的，DNS 自动添加；否则手动加 CNAME 指向 <code>xxx.pages.dev</code></td></tr>
+  </tbody>
+</table>
 
 ### 部署完成后的日常工作流
 
@@ -361,19 +353,18 @@ git push
 
 ## 接下来计划
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1.5rem 0">
-  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;border-top:3px solid var(--color-accent)">
-    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">技术博文</div>
-    <div style="font-size:0.78rem;color:var(--color-text-light)">学习笔记、踩坑记录、工具推荐</div>
-  </div>
-  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;border-top:3px solid var(--color-accent-secondary)">
-    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">AI 作品</div>
-    <div style="font-size:0.78rem;color:var(--color-text-light)">用各种 AI 工具生成的图片和视频</div>
-  </div>
-  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;border-top:3px solid var(--color-text-light)">
-    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">有趣项目</div>
-    <div style="font-size:0.78rem;color:var(--color-text-light)">那些让我眼前一亮的工具和想法</div>
-  </div>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>内容类型</th>
+      <th>方向</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>技术博文</strong></td><td>学习笔记、踩坑记录、工具推荐</td></tr>
+    <tr><td><strong>AI 作品</strong></td><td>用各种 AI 工具生成的图片和视频</td></tr>
+    <tr><td><strong>有趣项目</strong></td><td>那些让我眼前一亮的工具和想法</td></tr>
+  </tbody>
+</table>
 
 希望这个小站能一直更新下去 ✦
