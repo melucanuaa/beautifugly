@@ -29,11 +29,7 @@ const links = [
 
     <div class="sidebar-divider"></div>
 
-    <div class="sidebar-tech">
-      {['Astro', 'Tailwind', 'TypeScript'].map(t => (
-        <span class="sidebar-tag">{t}</span>
-      ))}
-    </div>
+    <div class="sidebar-vibe">Vibe Coding ✦</div>
   </div>
 </aside>
 
@@ -109,18 +105,10 @@ const links = [
     color: var(--color-accent);
   }
 
-  .sidebar-tech {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .sidebar-tag {
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    background: var(--color-accent-secondary);
-    color: #fff;
-    border-radius: 9999px;
+  .sidebar-vibe {
+    font-size: 0.72rem;
+    color: var(--color-text-light);
+    text-align: center;
+    letter-spacing: 0.05em;
   }
 </style>
