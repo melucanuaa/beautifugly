@@ -5,7 +5,10 @@ const links = [
   { href: '/', label: '首页' },
   { href: '/blog', label: '博客' },
   { href: '/works', label: '作品' },
-  { href: '/projects', label: '项目' },
+  { href: '/projects', label: '项目', children: [
+    { href: '/projects', label: '全部项目' },
+    { href: '/projects/ai-image', label: 'AI 图片生成' },
+  ]},
   { href: '/about', label: '关于' },
 ];
 
@@ -21,17 +24,53 @@ const currentPath = Astro.url.pathname;
     {/* Desktop nav */}
     <div class="hidden md:flex items-center gap-6">
       {links.map(link => (
-        <a
-          href={link.href}
-          class:list={[
-            'text-sm font-medium transition-colors',
-            currentPath === link.href || currentPath.startsWith(link.href + '/')
-              ? 'text-[var(--color-accent)]'
-              : 'text-[var(--color-text-light)] hover:text-[var(--color-text)]'
-          ]}
-        >
-          {link.label}
-        </a>
+        link.children ? (
+          <div class="relative group">
+            <a
+              href={link.href}
+              class:list={[
+                'text-sm font-medium transition-colors inline-flex items-center gap-1',
+                currentPath.startsWith(link.href)
+                  ? 'text-[var(--color-accent)]'
+                  : 'text-[var(--color-text-light)] hover:text-[var(--color-text)]'
+              ]}
+            >
+              {link.label}
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 5l3 3 3-3"/>
+              </svg>
+            </a>
+            <div class="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+              <div class="bg-[var(--color-bg-card)] border-2 border-[var(--color-border)] rounded-lg py-2 min-w-[140px] shadow-lg">
+                {link.children.map(child => (
+                  <a
+                    href={child.href}
+                    class:list={[
+                      'block px-4 py-2 text-sm transition-colors',
+                      currentPath === child.href
+                        ? 'text-[var(--color-accent)]'
+                        : 'text-[var(--color-text-light)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]/50'
+                    ]}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a
+            href={link.href}
+            class:list={[
+              'text-sm font-medium transition-colors',
+              currentPath === link.href
+                ? 'text-[var(--color-accent)]'
+                : 'text-[var(--color-text-light)] hover:text-[var(--color-text)]'
+            ]}
+          >
+            {link.label}
+          </a>
+        )
       ))}
       <button id="search-btn" class="text-[var(--color-text-light)] hover:text-[var(--color-text)] transition-colors" aria-label="搜索">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -63,17 +102,48 @@ const currentPath = Astro.url.pathname;
   <div id="mobile-menu" class="hidden md:hidden border-t-2 border-[var(--color-border)] bg-[var(--color-bg)]">
     <div class="px-6 py-4 flex flex-col gap-4">
       {links.map(link => (
-        <a
-          href={link.href}
-          class:list={[
-            'text-sm font-medium transition-colors',
-            currentPath === link.href
-              ? 'text-[var(--color-accent)]'
-              : 'text-[var(--color-text-light)]'
-          ]}
-        >
-          {link.label}
-        </a>
+        link.children ? (
+          <div>
+            <a
+              href={link.href}
+              class:list={[
+                'text-sm font-medium transition-colors',
+                currentPath.startsWith(link.href)
+                  ? 'text-[var(--color-accent)]'
+                  : 'text-[var(--color-text-light)]'
+              ]}
+            >
+              {link.label}
+            </a>
+            <div class="flex flex-col gap-2 pl-4 mt-2">
+              {link.children.map(child => (
+                <a
+                  href={child.href}
+                  class:list={[
+                    'text-sm transition-colors',
+                    currentPath === child.href
+                      ? 'text-[var(--color-accent)]'
+                      : 'text-[var(--color-text-light)]'
+                  ]}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a
+            href={link.href}
+            class:list={[
+              'text-sm font-medium transition-colors',
+              currentPath === link.href
+                ? 'text-[var(--color-accent)]'
+                : 'text-[var(--color-text-light)]'
+            ]}
+          >
+            {link.label}
+          </a>
+        )
       ))}
     </div>
   </div>
