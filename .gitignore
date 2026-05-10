@@ -1,5 +1,6 @@
 # build output
 dist/
+
 # generated types
 .astro/
 
@@ -12,13 +13,20 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
-.env.production
+.env.*
 
-# macOS-specific files
+# editor / OS
 .DS_Store
-
-# jetbrains setting folder
+Thumbs.db
 .idea/
+*.swp
+*.swo
+*~
+
+# Claude Code local settings
+.claude/
+
+# Development specs / design docs
+docs/
