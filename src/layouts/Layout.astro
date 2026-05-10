@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '../components/Analytics.astro';
 import BackToTop from '../components/BackToTop.astro';
+import Sidebar from '../components/Sidebar.astro';
 import SEO from '../components/SEO.astro';
 
 interface Props {
@@ -42,6 +43,7 @@ const {
   </head>
   <body class="min-h-screen flex flex-col">
     <Nav />
+    <Sidebar />
     <main class="flex-1">
       <slot />
     </main>
