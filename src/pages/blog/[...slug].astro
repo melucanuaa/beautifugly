@@ -135,7 +135,6 @@ function formatDate(date: Date) {
   }
 
   .prose :global(pre) {
-    position: relative;
     background: var(--color-text);
     color: var(--color-bg);
     padding: 1.25rem;
@@ -176,7 +175,11 @@ function formatDate(date: Date) {
     margin-bottom: 0.5rem;
   }
 
-  .copy-btn {
+  .prose :global(.code-wrap) {
+    position: relative;
+  }
+
+  .prose :global(.copy-btn) {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -192,32 +195,80 @@ function formatDate(date: Date) {
     align-items: center;
     justify-content: center;
     color: var(--color-bg);
-    font-size: 14px;
+    z-index: 1;
   }
 
-  .prose :global(pre:hover .copy-btn) {
+  .prose :global(.code-wrap:hover .copy-btn) {
     opacity: 1;
   }
 
-  .copy-btn:hover {
+  .prose :global(.copy-btn:hover) {
     background: rgba(255,255,255,0.25);
+  }
+
+  .prose :global(.copy-btn svg) {
+    width: 16px;
+    height: 16px;
   }
 </style>
 
 <script>
   document.querySelectorAll('.prose pre').forEach(pre => {
+    const wrap = document.createElement('div');
+    wrap.className = 'code-wrap';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
     const btn = document.createElement('button');
     btn.className = 'copy-btn';
-    btn.textContent = '📋';
+
+    const svgNS = 'http://www.w3.org/2000/svg';
+    function makeCopyIcon() {
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '2');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+      const r = document.createElementNS(svgNS, 'rect');
+      r.setAttribute('x', '9'); r.setAttribute('y', '9');
+      r.setAttribute('width', '13'); r.setAttribute('height', '13');
+      r.setAttribute('rx', '2'); r.setAttribute('ry', '2');
+      svg.appendChild(r);
+      const p = document.createElementNS(svgNS, 'path');
+      p.setAttribute('d', 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1');
+      svg.appendChild(p);
+      return svg;
+    }
+    function makeCheckIcon() {
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '2');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+      const pl = document.createElementNS(svgNS, 'polyline');
+      pl.setAttribute('points', '20 6 9 17 4 12');
+      svg.appendChild(pl);
+      return svg;
+    }
+
+    btn.appendChild(makeCopyIcon());
     btn.addEventListener('click', () => {
       const code = pre.querySelector('code');
       if (code) {
         navigator.clipboard.writeText(code.textContent || '').then(() => {
-          btn.textContent = '✓';
-          setTimeout(() => btn.textContent = '📋', 1500);
+          btn.textContent = '';
+          btn.appendChild(makeCheckIcon());
+          setTimeout(() => {
+            btn.textContent = '';
+            btn.appendChild(makeCopyIcon());
+          }, 1500);
         });
       }
     });
-    pre.appendChild(btn);
+    wrap.appendChild(btn);
   });
 </script>
