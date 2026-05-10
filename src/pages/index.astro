@@ -27,16 +27,16 @@ function formatDate(date: Date) {
   {/* Hero */}
   <section class="max-w-4xl mx-auto px-6 pt-8 md:pt-16 pb-12">
     <div class="flex items-start gap-3 mb-4">
-      <span class="font-[var(--font-pixel)] text-3xl md:text-4xl">✦</span>
-      <h1 class="font-[var(--font-pixel)] text-2xl md:text-3xl">beautifugly</h1>
+      <span class="font-[var(--font-heading)] text-3xl md:text-4xl">✦</span>
+      <h1 class="font-[var(--font-heading)] text-2xl md:text-3xl">beautifugly</h1>
     </div>
     <p class="text-[var(--color-text-light)] max-w-xl text-lg leading-relaxed">
       分享技术博文、AI 创作、有趣的项目。<br />
       一个记录成长与探索的小站。
     </p>
     <div class="flex flex-wrap gap-3 mt-6">
-      <a href="/blog" class="pixel-btn bg-[var(--color-accent)] text-white">看看博客</a>
-      <a href="/about" class="pixel-btn bg-[var(--color-bg-card)]">了解我</a>
+      <a href="/blog" class="btn-primary">看看博客</a>
+      <a href="/about" class="btn-secondary">了解我</a>
     </div>
   </section>
 
@@ -59,7 +59,7 @@ function formatDate(date: Date) {
   {/* Latest Blog */}
   <section class="max-w-4xl mx-auto px-6 pb-12">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="font-[var(--font-pixel)] text-sm">✦ 最新博文</h2>
+      <h2 class="font-[var(--font-heading)] text-sm">✦ 最新博文</h2>
       <a href="/blog" class="text-sm text-[var(--color-accent)] hover:underline">查看全部 →</a>
     </div>
     <div class="grid gap-4">
@@ -83,7 +83,7 @@ function formatDate(date: Date) {
   {/* Latest Works */}
   <section class="max-w-4xl mx-auto px-6 pb-12">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="font-[var(--font-pixel)] text-sm">✦ 最新作品</h2>
+      <h2 class="font-[var(--font-heading)] text-sm">✦ 最新作品</h2>
       <a href="/works" class="text-sm text-[var(--color-accent)] hover:underline">查看全部 →</a>
     </div>
     <div class="grid md:grid-cols-3 gap-4">
@@ -113,7 +113,7 @@ function formatDate(date: Date) {
   {/* Latest Projects */}
   <section class="max-w-4xl mx-auto px-6 pb-12">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="font-[var(--font-pixel)] text-sm">✦ 最新项目</h2>
+      <h2 class="font-[var(--font-heading)] text-sm">✦ 最新项目</h2>
       <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline">查看全部 →</a>
     </div>
     <div class="grid md:grid-cols-2 gap-4">
@@ -123,7 +123,7 @@ function formatDate(date: Date) {
           <p class="text-sm text-[var(--color-text-light)] mt-2">{project.data.description}</p>
           <div class="flex gap-2 mt-3">
             {project.data.tags.map(tag => (
-              <span class="text-xs px-2 py-0.5 bg-[var(--color-accent-purple)]/10 rounded">{tag}</span>
+              <span class="text-xs px-2 py-0.5 bg-[var(--color-accent-secondary)]/10 rounded">{tag}</span>
             ))}
           </div>
         </a>

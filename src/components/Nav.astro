@@ -17,7 +17,7 @@ const currentPath = Astro.url.pathname;
 
 <nav class="sticky top-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-sm border-b-2 border-[var(--color-border)]">
   <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="/" class="font-[var(--font-pixel)] text-sm tracking-wider hover:text-[var(--color-accent)] transition-colors">
+    <a href="/" class="font-[var(--font-heading)] text-sm tracking-wider hover:text-[var(--color-accent)] transition-colors">
       ✦ beautifugly
     </a>
 
@@ -41,7 +41,7 @@ const currentPath = Astro.url.pathname;
               </svg>
             </a>
             <div class="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
-              <div class="bg-[var(--color-bg-card)] border-2 border-[var(--color-border)] rounded-lg py-2 min-w-[140px] shadow-lg">
+              <div class="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg py-2 min-w-[140px] shadow-lg">
                 {link.children.map(child => (
                   <a
                     href={child.href}
@@ -153,7 +153,7 @@ const currentPath = Astro.url.pathname;
 <div id="search-modal" class="fixed inset-0 z-[100] hidden">
   <div class="absolute inset-0 bg-black/50" id="search-overlay"></div>
   <div class="relative max-w-2xl mx-auto mt-20 px-4 max-h-[80vh] overflow-y-auto">
-    <div class="bg-[var(--color-bg-card)] border-2 border-[var(--color-border-pixel)] rounded-lg p-4 shadow-xl">
+    <div class="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-4 shadow-xl">
       <input
         id="search-input"
         type="text"

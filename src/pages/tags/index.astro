@@ -31,20 +31,20 @@ const typeLabels = {
 
 <Layout title="分类标签">
   <section class="max-w-4xl mx-auto px-6 py-12">
-    <h1 class="font-[var(--font-pixel)] text-xl mb-2">✦ 分类标签</h1>
+    <h1 class="font-[var(--font-heading)] text-xl mb-2">✦ 分类标签</h1>
     <p class="text-[var(--color-text-light)] mb-8">按标签浏览所有内容</p>
 
     <div class="grid gap-6">
       {sortedTags.map(([tag, items]) => (
         <div class="card p-6">
           <div class="flex items-center gap-3 mb-4">
-            <h2 class="font-[var(--font-pixel)] text-sm">{tag}</h2>
+            <h2 class="font-[var(--font-heading)] text-sm">{tag}</h2>
             <span class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded">{items.length} 篇</span>
           </div>
           <ul class="space-y-2">
             {items.map(item => (
               <li class="flex items-center gap-3">
-                <span class="text-[10px] px-1.5 py-0.5 bg-[var(--color-accent-purple)]/10 rounded shrink-0">
+                <span class="text-[10px] px-1.5 py-0.5 bg-[var(--color-accent-secondary)]/10 rounded shrink-0">
                   {typeLabels[item.type]}
                 </span>
                 <a href={item.url} class="text-sm hover:text-[var(--color-accent)] transition-colors truncate">

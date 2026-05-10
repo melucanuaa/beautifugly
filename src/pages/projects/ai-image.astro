@@ -6,7 +6,7 @@ import Layout from '../../layouts/Layout.astro';
   <section class="max-w-4xl mx-auto px-6 py-12">
     <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回项目</a>
 
-    <h1 class="font-[var(--font-pixel)] text-xl md:text-2xl mb-2">✦ AI 图片生成</h1>
+    <h1 class="font-[var(--font-heading)] text-xl md:text-2xl mb-2">✦ AI 图片生成</h1>
     <p class="text-[var(--color-text-light)] mb-8">使用 GPT IMAGE 2 在线文生图 / 图生图</p>
 
     <!-- API Key 输入 -->
@@ -17,17 +17,17 @@ import Layout from '../../layouts/Layout.astro';
           id="api-key"
           type="password"
           placeholder="输入你的 API Key"
-          class="flex-1 bg-transparent border-2 border-[var(--color-border)] rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] transition-colors"
+          class="flex-1 bg-transparent border border-[var(--color-border)] rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[var(--color-accent)] transition-colors"
         />
-        <button id="btn-confirm-key" class="pixel-btn bg-[var(--color-accent)] text-white text-xs">确认</button>
+        <button id="btn-confirm-key" class="btn-primary text-xs">确认</button>
       </div>
       <p id="key-status" class="text-xs mt-2 text-[var(--color-text-light)]"></p>
     </div>
 
     <!-- 模式切换 -->
     <div class="flex gap-2 mb-6">
-      <button id="tab-txt" class="pixel-btn bg-[var(--color-accent)] text-white text-xs">文生图</button>
-      <button id="tab-img" class="pixel-btn bg-[var(--color-bg-card)] text-xs">图生图</button>
+      <button id="tab-txt" class="btn-primary text-xs">文生图</button>
+      <button id="tab-img" class="btn-secondary text-xs">图生图</button>
     </div>
 
     <!-- 参数面板 -->
@@ -38,18 +38,18 @@ import Layout from '../../layouts/Layout.astro';
         id="prompt"
         rows="4"
         placeholder="描述你想要的图片，越详细效果越好..."
-        class="w-full bg-transparent border-2 border-[var(--color-border)] rounded-lg px-4 py-3 text-sm outline-none focus:border-[var(--color-accent)] transition-colors resize-none mb-4"
+        class="w-full bg-transparent border border-[var(--color-border)] rounded-lg px-4 py-3 text-sm outline-none focus:border-[var(--color-accent)] transition-colors resize-none mb-4"
       ></textarea>
 
       <!-- 尺寸选择 -->
       <div class="flex flex-wrap items-center gap-4 mb-4">
         <label class="text-sm font-medium">尺寸</label>
         <div id="size-options" class="flex gap-2">
-          <button data-size="1:1" class="size-btn pixel-btn bg-[var(--color-accent)] text-white text-xs">1:1</button>
-          <button data-size="16:9" class="size-btn pixel-btn bg-[var(--color-bg-card)] text-xs">16:9</button>
-          <button data-size="9:16" class="size-btn pixel-btn bg-[var(--color-bg-card)] text-xs">9:16</button>
-          <button data-size="4:3" class="size-btn pixel-btn bg-[var(--color-bg-card)] text-xs">4:3</button>
-          <button data-size="3:4" class="size-btn pixel-btn bg-[var(--color-bg-card)] text-xs">3:4</button>
+          <button data-size="1:1" class="size-btn btn-primary text-xs">1:1</button>
+          <button data-size="16:9" class="size-btn btn-secondary text-xs">16:9</button>
+          <button data-size="9:16" class="size-btn btn-secondary text-xs">9:16</button>
+          <button data-size="4:3" class="size-btn btn-secondary text-xs">4:3</button>
+          <button data-size="3:4" class="size-btn btn-secondary text-xs">3:4</button>
         </div>
       </div>
 
@@ -58,7 +58,7 @@ import Layout from '../../layouts/Layout.astro';
         <label class="block text-sm font-medium mb-2">上传图片</label>
         <div
           id="drop-zone"
-          class="border-2 border-dashed border-[var(--color-border)] rounded-lg p-8 text-center cursor-pointer hover:border-[var(--color-accent)] transition-colors"
+          class="border border-dashed border-[var(--color-border)] rounded-lg p-8 text-center cursor-pointer hover:border-[var(--color-accent)] transition-colors"
         >
           <input id="file-input" type="file" accept="image/*" class="hidden" />
           <p id="upload-text" class="text-sm text-[var(--color-text-light)]">点击或拖拽图片到此处</p>
@@ -67,7 +67,7 @@ import Layout from '../../layouts/Layout.astro';
       </div>
 
       <!-- 生成按钮 -->
-      <button id="btn-generate" class="pixel-btn bg-[var(--color-accent)] text-white text-xs w-full" disabled>
+      <button id="btn-generate" class="btn-primary text-xs w-full" disabled>
         生成图片
       </button>
     </div>
@@ -75,7 +75,7 @@ import Layout from '../../layouts/Layout.astro';
     <!-- 结果区 -->
     <div id="result-area" class="hidden">
       <div class="card p-6">
-        <h2 class="font-[var(--font-pixel)] text-sm mb-4">✦ 生成结果</h2>
+        <h2 class="font-[var(--font-heading)] text-sm mb-4">✦ 生成结果</h2>
 
         <!-- 加载状态 -->
         <div id="loading" class="hidden text-center py-12">
@@ -93,7 +93,7 @@ import Layout from '../../layouts/Layout.astro';
           <img id="result-img" class="w-full rounded-lg mb-4" />
           <div class="flex justify-between items-center">
             <p id="revised-prompt" class="text-xs text-[var(--color-text-light)] flex-1 mr-4"></p>
-            <a id="btn-download" class="pixel-btn bg-[var(--color-accent-purple)] text-white text-xs" download="ai-generated.png">
+            <a id="btn-download" class="btn-primary text-xs" download="ai-generated.png">
               下载图片
             </a>
           </div>
@@ -155,12 +155,12 @@ import Layout from '../../layouts/Layout.astro';
   function setMode(mode: 'txt2img' | 'img2img') {
     currentMode = mode;
     if (mode === 'txt2img') {
-      tabTxt.className = 'pixel-btn bg-[var(--color-accent)] text-white text-xs';
-      tabImg.className = 'pixel-btn bg-[var(--color-bg-card)] text-xs';
+      tabTxt.className = 'btn-primary text-xs';
+      tabImg.className = 'btn-secondary text-xs';
       uploadArea.classList.add('hidden');
     } else {
-      tabTxt.className = 'pixel-btn bg-[var(--color-bg-card)] text-xs';
-      tabImg.className = 'pixel-btn bg-[var(--color-accent)] text-white text-xs';
+      tabTxt.className = 'btn-secondary text-xs';
+      tabImg.className = 'btn-primary text-xs';
       uploadArea.classList.remove('hidden');
     }
     updateGenerateBtn();
@@ -175,9 +175,9 @@ import Layout from '../../layouts/Layout.astro';
     if (!btn) return;
     selectedSize = btn.dataset.size!;
     sizeOptions.querySelectorAll('.size-btn').forEach(b => {
-      b.className = 'size-btn pixel-btn bg-[var(--color-bg-card)] text-xs';
+      b.className = 'size-btn btn-secondary text-xs';
     });
-    btn.className = 'size-btn pixel-btn bg-[var(--color-accent)] text-white text-xs';
+    btn.className = 'size-btn btn-primary text-xs';
   });
 
   // File upload

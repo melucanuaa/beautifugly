@@ -40,7 +40,7 @@ function formatDate(date: Date) {
     <a href="/blog" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回博客</a>
 
     <header class="mb-8">
-      <h1 class="font-[var(--font-pixel)] text-xl md:text-2xl mb-4">{post.data.title}</h1>
+      <h1 class="font-[var(--font-heading)] text-xl md:text-2xl mb-4">{post.data.title}</h1>
       <div class="flex items-center gap-2 md:gap-4 flex-wrap text-sm text-[var(--color-text-light)]">
         <span>{formatDate(post.data.date)}</span>
         <ReadingTime content={post.body || ''} />
@@ -80,7 +80,7 @@ function formatDate(date: Date) {
 
     {/* Giscus Comments */}
     <div class="mt-12">
-      <h2 class="font-[var(--font-pixel)] text-sm mb-6">评论</h2>
+      <h2 class="font-[var(--font-heading)] text-sm mb-6">评论</h2>
       <div class="giscus"></div>
       <script
         src="https://giscus.app/client.js"
@@ -105,16 +105,18 @@ function formatDate(date: Date) {
 
 <style>
   .prose :global(h2) {
-    font-family: var(--font-pixel);
-    font-size: 0.9rem;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
     margin-top: 2.5rem;
     margin-bottom: 1rem;
     scroll-margin-top: 5rem;
   }
 
   .prose :global(h3) {
-    font-family: var(--font-pixel);
-    font-size: 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 600;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
     scroll-margin-top: 5rem;

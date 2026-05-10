@@ -4,26 +4,15 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="页面未找到">
   <section class="max-w-3xl mx-auto px-6 py-24 text-center">
-    <div class="font-[var(--font-pixel)] text-6xl mb-8">404</div>
+    <div class="font-[var(--font-heading)] text-6xl mb-8">404</div>
 
-    <div class="mb-8">
-      <pre class="inline-block text-left text-xs leading-tight text-[var(--color-text-light)]">
-{`  ╔══════════════════╗
-  ║  ░░░░░░░░░░░░░░  ║
-  ║  ░░ 404 NOT ░░░  ║
-  ║  ░░  FOUND  ░░░  ║
-  ║  ░░░░░░░░░░░░░░  ║
-  ╚══════════════════╝`}
-      </pre>
-    </div>
-
-    <p class="text-[var(--color-text-light)] mb-8">
-      你好像走丢了…这个页面不存在 ✦
+    <p class="text-[var(--color-text-light)] mb-8 text-lg">
+      你好像走丢了…这个页面不存在
     </p>
 
     <div class="flex justify-center gap-4">
-      <a href="/" class="pixel-btn bg-[var(--color-accent)] text-white">回首页</a>
-      <a href="/blog" class="pixel-btn bg-[var(--color-bg-card)]">看博客</a>
+      <a href="/" class="btn-primary">回首页</a>
+      <a href="/blog" class="btn-secondary">看博客</a>
     </div>
 
     <div class="mt-16 text-xs text-[var(--color-text-light)]">

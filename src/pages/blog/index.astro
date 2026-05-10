@@ -15,16 +15,16 @@ function formatDate(date: Date) {
 
 <Layout title="博客">
   <section class="max-w-4xl mx-auto px-6 py-12">
-    <h1 class="font-[var(--font-pixel)] text-xl mb-2">✦ 博客</h1>
+    <h1 class="font-[var(--font-heading)] text-xl mb-2">✦ 博客</h1>
     <p class="text-[var(--color-text-light)] mb-8">技术笔记、学习心得、踩坑记录</p>
 
     {allTags.length > 0 && (
       <div class="flex flex-wrap gap-2 mb-8">
-        <button class="tag-filter active text-xs px-3 py-1.5 rounded-full border-2 border-[var(--color-border-pixel)] bg-[var(--color-accent)] text-white" data-tag="all">
+        <button class="tag-filter active text-xs px-3 py-1.5 rounded-full bg-[var(--color-accent)] text-white" data-tag="all">
           全部
         </button>
         {allTags.map(tag => (
-          <button class="tag-filter text-xs px-3 py-1.5 rounded-full border-2 border-[var(--color-border)] hover:border-[var(--color-border-pixel)] transition-colors" data-tag={tag}>
+          <button class="tag-filter text-xs px-3 py-1.5 rounded-full border border-[var(--color-border)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors" data-tag={tag}>
             {tag}
           </button>
         ))}
