@@ -8,11 +8,11 @@ const projects = (await getCollection('projects'))
 ---
 
 <Layout title="项目">
-  <section class="max-w-4xl px-6 py-12">
+  <section class="w-full py-12">
     <h1 class="font-[var(--font-heading)] text-xl mb-2">✦ 项目</h1>
     <p class="text-[var(--color-text-light)] mb-8">有趣的项目、工具、实验</p>
 
-    <div class="grid md:grid-cols-2 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       {projects.map(project => (
         <a href={`/projects/${project.id}`} class="card p-6 group">
           <div class="flex items-start justify-between gap-3">
