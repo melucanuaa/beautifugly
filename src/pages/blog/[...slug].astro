@@ -35,7 +35,9 @@ function formatDate(date: Date) {
   publishDate={post.data.date}
   tags={post.data.tags}
 >
-  <TOC headings={headings} />
+  <Fragment slot="right-sidebar">
+    <TOC headings={headings} />
+  </Fragment>
   <article class="w-full max-w-none py-8">
     <a href="/blog" class="text-sm text-[var(--color-accent)] hover:underline mb-8 inline-block">← 返回博客</a>
 
