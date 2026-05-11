@@ -35,6 +35,9 @@ function formatDate(date: Date) {
   publishDate={post.data.date}
   tags={post.data.tags}
 >
+  <Fragment slot="head">
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  </Fragment>
   <Fragment slot="right-sidebar">
     <TOC headings={headings} />
   </Fragment>
@@ -48,6 +51,11 @@ function formatDate(date: Date) {
         <span class="tabular-nums">{formatDate(post.data.date)}</span>
         <span class="text-[var(--color-border)]">·</span>
         <ReadingTime content={post.body || ''} />
+        <span class="text-[var(--color-border)]">·</span>
+        <span id="busuanzi_container_page_pv" class="inline-flex items-center gap-1">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="opacity-60"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span id="busuanzi_value_page_pv">--</span> 次阅读
+        </span>
         {post.data.category && (
           <>
             <span class="text-[var(--color-border)]">·</span>
@@ -118,6 +126,15 @@ function formatDate(date: Date) {
     </div>
   </article>
 </Layout>
+
+<script>
+  // Re-trigger busuanzi on Astro view transitions
+  document.addEventListener('astro:page-load', () => {
+    if (typeof window.busuanzi !== 'undefined') {
+      window.busuanzi.fetch();
+    }
+  });
+</script>
 
 <script>
   document.querySelectorAll('.prose pre').forEach(pre => {
