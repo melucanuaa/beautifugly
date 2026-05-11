@@ -35,9 +35,6 @@ function formatDate(date: Date) {
   publishDate={post.data.date}
   tags={post.data.tags}
 >
-  <Fragment slot="head">
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-  </Fragment>
   <Fragment slot="right-sidebar">
     <TOC headings={headings} />
   </Fragment>
@@ -126,15 +123,6 @@ function formatDate(date: Date) {
     </div>
   </article>
 </Layout>
-
-<script>
-  // Re-trigger busuanzi on Astro view transitions
-  document.addEventListener('astro:page-load', () => {
-    if (typeof window.busuanzi !== 'undefined') {
-      window.busuanzi.fetch();
-    }
-  });
-</script>
 
 <script>
   document.querySelectorAll('.prose pre').forEach(pre => {

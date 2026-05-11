@@ -58,5 +58,13 @@ const {
     <Footer />
     <BackToTop />
     <Analytics />
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script>
+      document.addEventListener('astro:page-load', () => {
+        if (typeof (window as any).busuanzi !== 'undefined') {
+          (window as any).busuanzi.fetch();
+        }
+      });
+    </script>
   </body>
 </html>

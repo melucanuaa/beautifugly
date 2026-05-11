@@ -7,18 +7,27 @@ const year = new Date().getFullYear();
   <div class="h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/30 to-transparent" />
 
   <div class="layout-band py-10">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-      {/* Left: Brand & copyright */}
-      <div class="flex flex-col items-center md:items-start gap-2">
-        <a href="/" class="font-[var(--font-heading)] text-sm tracking-wider text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">
-          ✦ beautifugly
-        </a>
-        <p class="text-xs text-[var(--color-text-light)]">
-          © {year} · Made with ✦ · Vibe Coding
-        </p>
+    <div class="flex flex-col items-center gap-6">
+
+      {/* Brand */}
+      <a href="/" class="font-[var(--font-heading)] text-sm tracking-wider text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors">
+        ✦ beautifugly
+      </a>
+
+      {/* Stats */}
+      <div class="flex items-center gap-4 text-xs text-[var(--color-text-light)]">
+        <span id="busuanzi_container_site_pv" class="inline-flex items-center gap-1.5">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="opacity-50"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span id="busuanzi_value_site_pv" class="tabular-nums">--</span> 次浏览
+        </span>
+        <span class="text-[var(--color-border)]">·</span>
+        <span id="busuanzi_container_site_uv" class="inline-flex items-center gap-1.5">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="opacity-50"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span id="busuanzi_value_site_uv" class="tabular-nums">--</span> 位访客
+        </span>
       </div>
 
-      {/* Right: Links */}
+      {/* Links */}
       <div class="flex items-center gap-5">
         <a href="/blog" class="text-xs text-[var(--color-text-light)] hover:text-[var(--color-accent)] transition-colors">博客</a>
         <a href="/works" class="text-xs text-[var(--color-text-light)] hover:text-[var(--color-accent)] transition-colors">作品</a>
@@ -35,6 +44,11 @@ const year = new Date().getFullYear();
           </svg>
         </a>
       </div>
+
+      {/* Copyright */}
+      <p class="text-xs text-[var(--color-text-light)] opacity-60">
+        © {year} · Made with ✦ · Vibe Coding
+      </p>
     </div>
   </div>
 </footer>
