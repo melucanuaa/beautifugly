@@ -5,7 +5,7 @@ const links = [
 ];
 ---
 
-<aside class="sidebar hidden lg:block">
+<aside class="sidebar">
   <div class="sidebar-card">
     <div class="sidebar-avatar">✦</div>
     <div class="sidebar-name">beautifugly</div>
@@ -34,32 +34,39 @@ const links = [
 </aside>
 
 <style>
+  /* Sidebar no longer manages its own display/sticky —
+     that's handled by .layout-sidebar in global.css.
+     It just styles the card contents. */
   .sidebar {
-    position: sticky;
-    top: 6rem; /* below nav */
     width: 100%;
   }
 
   .sidebar-card {
     background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
+    border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
     border-radius: 16px;
     padding: 24px 20px;
     box-shadow: 0 4px 20px var(--color-shadow);
     text-align: center;
+    transition: border-color 0.3s;
+  }
+
+  .sidebar-card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 20%, var(--color-border));
   }
 
   .sidebar-avatar {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: var(--color-accent);
+    background: linear-gradient(135deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 70%, var(--color-accent-secondary)));
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     margin: 0 auto 12px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 25%, transparent);
   }
 
   .sidebar-name {

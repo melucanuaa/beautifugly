@@ -25,16 +25,14 @@ function formatDate(date: Date) {
 
 <Layout>
   {/* Hero */}
-  <section class="w-full pt-4 md:pt-8 pb-12">
-    <div class="flex items-start gap-3 mb-4">
-      <span class="font-[var(--font-heading)] text-3xl md:text-4xl">✦</span>
-      <h1 class="font-[var(--font-heading)] text-2xl md:text-3xl">beautifugly</h1>
-    </div>
-    <p class="text-[var(--color-text-light)] max-w-xl text-lg leading-relaxed">
+  <section class="hero">
+    <div class="hero-icon animate-fade-up">✦</div>
+    <h1 class="hero-title mt-3 mb-4 animate-fade-up animate-delay-1">beautifugly</h1>
+    <p class="hero-subtitle animate-fade-up animate-delay-2">
       分享技术博文、AI 创作、有趣的项目。<br />
       一个记录成长与探索的小站。
     </p>
-    <div class="flex flex-wrap gap-3 mt-6">
+    <div class="flex flex-wrap gap-3 mt-8 animate-fade-up animate-delay-3">
       <a href="/blog" class="btn-primary">看看博客</a>
       <a href="/about" class="btn-secondary">了解我</a>
     </div>
@@ -42,11 +40,11 @@ function formatDate(date: Date) {
 
   {/* Tags Quick Access */}
   {tagCounts.length > 0 && (
-    <section class="w-full pb-12">
+    <section class="pb-12 animate-fade-up animate-delay-4">
       <div class="flex flex-wrap gap-2">
         {tagCounts.map(({ tag, count }) => (
-          <a href={`/blog?tag=${tag}`} class="text-xs px-3 py-1.5 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-full hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors">
-            {tag} <span class="text-[var(--color-text-light)]">({count})</span>
+          <a href={`/blog?tag=${tag}`} class="text-xs px-3 py-1.5 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-full hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent)]/5 transition-all duration-200">
+            {tag} <span class="text-[var(--color-text-light)] opacity-70">({count})</span>
           </a>
         ))}
         <a href="/tags" class="text-xs px-3 py-1.5 text-[var(--color-accent)] hover:underline">
@@ -57,16 +55,19 @@ function formatDate(date: Date) {
   )}
 
   {/* Latest Blog */}
-  <section class="w-full pb-12">
+  <section class="pb-12">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="font-[var(--font-heading)] text-sm">✦ 最新博文</h2>
+      <div class="flex items-center gap-3">
+        <span class="section-label">Recent</span>
+        <h2 class="font-[var(--font-heading)] text-sm">最新博文</h2>
+      </div>
       <a href="/blog" class="text-sm text-[var(--color-accent)] hover:underline">查看全部 →</a>
     </div>
     <div class="grid gap-4">
       {latestBlog.map(post => (
-        <a href={`/blog/${post.id}`} class="card p-5 flex flex-col md:flex-row md:items-center gap-3">
-          <span class="text-xs text-[var(--color-text-light)] whitespace-nowrap">{formatDate(post.data.date)}</span>
-          <span class="font-medium">{post.data.title}</span>
+        <a href={`/blog/${post.id}`} class="card p-5 flex flex-col md:flex-row md:items-center gap-3 group">
+          <span class="text-xs text-[var(--color-text-light)] whitespace-nowrap tabular-nums">{formatDate(post.data.date)}</span>
+          <span class="font-medium group-hover:text-[var(--color-accent)] transition-colors">{post.data.title}</span>
           <div class="flex gap-1.5 flex-wrap md:ml-auto">
             {post.data.tags.map(tag => (
               <span class="text-xs px-2 py-0.5 bg-[var(--color-accent)]/10 rounded">{tag}</span>
@@ -81,23 +82,26 @@ function formatDate(date: Date) {
   </section>
 
   {/* Latest Works */}
-  <section class="w-full pb-12">
+  <section class="pb-12">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="font-[var(--font-heading)] text-sm">✦ 最新作品</h2>
+      <div class="flex items-center gap-3">
+        <span class="section-label">Works</span>
+        <h2 class="font-[var(--font-heading)] text-sm">最新作品</h2>
+      </div>
       <a href="/works" class="text-sm text-[var(--color-accent)] hover:underline">查看全部 →</a>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       {latestWorks.map(work => (
-        <a href={`/works/${work.id}`} class="card overflow-hidden">
-          <div class="aspect-[4/3] bg-[var(--color-border)] flex items-center justify-center">
+        <a href={`/works/${work.id}`} class="card overflow-hidden group">
+          <div class="aspect-[4/3] bg-[var(--color-border)] overflow-hidden">
             {work.data.image ? (
-              <img src={work.data.image} alt={work.data.title} class="w-full h-full object-cover" loading="lazy" />
+              <img src={work.data.image} alt={work.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
             ) : (
-              <span class="text-4xl">✦</span>
+              <div class="w-full h-full flex items-center justify-center text-4xl">✦</div>
             )}
           </div>
           <div class="p-4">
-            <h3 class="font-medium text-sm">{work.data.title}</h3>
+            <h3 class="font-medium text-sm group-hover:text-[var(--color-accent)] transition-colors">{work.data.title}</h3>
             {work.data.description && (
               <p class="text-xs text-[var(--color-text-light)] mt-1 line-clamp-2">{work.data.description}</p>
             )}
@@ -111,12 +115,15 @@ function formatDate(date: Date) {
   </section>
 
   {/* Latest Projects */}
-  <section class="w-full pb-12">
+  <section class="pb-12">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="font-[var(--font-heading)] text-sm">✦ 最新项目</h2>
+      <div class="flex items-center gap-3">
+        <span class="section-label">Projects</span>
+        <h2 class="font-[var(--font-heading)] text-sm">最新项目</h2>
+      </div>
       <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline">查看全部 →</a>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       {latestProjects.map(project => (
         <a href={`/projects/${project.id}`} class="card p-5">
           <h3 class="font-medium">{project.data.title}</h3>
@@ -135,7 +142,8 @@ function formatDate(date: Date) {
   </section>
 
   {/* Newsletter */}
-  <section class="w-full pb-16">
+  <section class="pb-16">
+    <hr class="section-divider" />
     <Newsletter />
   </section>
 </Layout>

@@ -3,12 +3,13 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="关于">
-  <section class="w-full py-12">
+  <section class="py-8">
     <h1 class="font-[var(--font-heading)] text-xl mb-8">✦ 关于</h1>
 
-    <div class="card p-6 md:p-8 mb-8">
-      <div class="flex flex-col md:flex-row gap-8 items-start">
-        <div class="w-24 h-24 rounded-full bg-[var(--color-accent)]/20 flex items-center justify-center text-3xl shrink-0">
+    <div class="card p-6 md:p-8 mb-8 overflow-hidden relative">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[var(--color-accent)]/10 to-transparent rounded-bl-full" />
+      <div class="flex flex-col md:flex-row gap-8 items-start relative">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-[var(--color-accent)]/20 to-[var(--color-accent-secondary)]/20 flex items-center justify-center text-3xl shrink-0 border-2 border-[var(--color-accent)]/10">
           ✦
         </div>
         <div>

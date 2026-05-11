@@ -15,66 +15,66 @@ function formatDate(date: Date) {
 ---
 
 <Layout title="博客">
-  <div class="blog-shell">
-    <!-- 主内容：居中 max-w-4xl -->
-    <section class="blog-main">
-      <h1 class="page-title">博客</h1>
-      <p class="page-desc">技术笔记、学习心得、踩坑记录</p>
-
-      {allTags.length > 0 && (
-        <div class="tag-row">
-          <button class="tag-btn active" data-tag="all">全部</button>
-          {allTags.map(tag => (
-            <button class="tag-btn" data-tag={tag}>{tag}</button>
-          ))}
-        </div>
-      )}
-
-      <div class="post-list" id="post-list">
-        {posts.map(post => (
-          <a href={`/blog/${post.id}`} class="post-card" data-tags={post.data.tags.join(',')} data-category={post.data.category || ''}>
-            <div class="post-head">
-              <span class="post-date">{formatDate(post.data.date)}</span>
-              {post.data.category && (
-                <span class="post-cat">{post.data.category}</span>
-              )}
-            </div>
-            <h2 class="post-title">{post.data.title}</h2>
-            <div class="post-tags">
-              {post.data.tags.map(tag => (
-                <span class="post-tag">{tag}</span>
-              ))}
-            </div>
-            {post.data.description && (
-              <p class="post-desc">{post.data.description}</p>
-            )}
-          </a>
-        ))}
-        {posts.length === 0 && (
-          <p class="empty-hint">还没有文章，敬请期待</p>
-        )}
-      </div>
-    </section>
-
-    <!-- 右侧：分类筛选，利用右侧空白 -->
-    <Fragment slot="right-sidebar">
-      <div class="cat-card">
-        <h3 class="cat-title">分类筛选</h3>
-        <div class="cat-list">
-          <label class="cat-item">
-            <input type="checkbox" class="cat-check" data-category="all" checked />
-            <span class="cat-label">全部</span>
-          </label>
-          {CATEGORIES.map(cat => (
-            <label class="cat-item">
-              <input type="checkbox" class="cat-check" data-category={cat} />
-              <span class="cat-label">{cat}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-    </Fragment>
+  {/* Page header */}
+  <div class="page-header">
+    <h1>博客</h1>
+    <p>技术笔记、学习心得、踩坑记录</p>
   </div>
+
+  {/* Tag filter row */}
+  {allTags.length > 0 && (
+    <div class="tag-row">
+      <button class="tag-btn active" data-tag="all">全部</button>
+      {allTags.map(tag => (
+        <button class="tag-btn" data-tag={tag}>{tag}</button>
+      ))}
+    </div>
+  )}
+
+  {/* Post list */}
+  <div class="post-list" id="post-list">
+    {posts.map(post => (
+      <a href={`/blog/${post.id}`} class="post-card" data-tags={post.data.tags.join(',')} data-category={post.data.category || ''}>
+        <div class="post-head">
+          <span class="post-date">{formatDate(post.data.date)}</span>
+          {post.data.category && (
+            <span class="post-cat">{post.data.category}</span>
+          )}
+        </div>
+        <h2 class="post-title">{post.data.title}</h2>
+        <div class="post-tags">
+          {post.data.tags.map(tag => (
+            <span class="post-tag">{tag}</span>
+          ))}
+        </div>
+        {post.data.description && (
+          <p class="post-desc">{post.data.description}</p>
+        )}
+      </a>
+    ))}
+    {posts.length === 0 && (
+      <p class="empty-hint">还没有文章，敬请期待</p>
+    )}
+  </div>
+
+  {/* Right sidebar: category filter */}
+  <Fragment slot="right-sidebar">
+    <div class="cat-card">
+      <h3 class="cat-title">分类筛选</h3>
+      <div class="cat-list">
+        <label class="cat-item">
+          <input type="checkbox" class="cat-check" data-category="all" checked />
+          <span class="cat-label">全部</span>
+        </label>
+        {CATEGORIES.map(cat => (
+          <label class="cat-item">
+            <input type="checkbox" class="cat-check" data-category={cat} />
+            <span class="cat-label">{cat}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  </Fragment>
 </Layout>
 
 <script>
@@ -158,85 +158,12 @@ function formatDate(date: Date) {
 </script>
 
 <style>
-  .blog-shell {
-    display: flex;
-    justify-content: flex-start;
-    padding: 1rem 0;
-    gap: 2rem;
-    position: relative;
-    width: 100%;
-  }
-
-  .blog-main {
-    width: 100%;
-  }
-
-  .page-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-    color: var(--color-text);
-  }
-  @media (min-width: 640px) {
-    .page-title { font-size: 1.75rem; }
-  }
-
-  .page-desc {
-    font-size: 0.85rem;
-    color: var(--color-text-light);
-    margin-bottom: 1.5rem;
-  }
-
-  /* 分类卡片 */
-  .cat-card {
-    background: var(--color-bg-card);
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 2px 12px rgba(159, 64, 45, 0.06);
-  }
-
-  .cat-title {
-    font-family: var(--font-heading);
-    font-size: 0.82rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    color: var(--color-text);
-  }
-
-  .cat-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .cat-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    font-size: 0.8rem;
-    color: var(--color-text);
-  }
-
-  .cat-check {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--color-accent);
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .cat-label {
-    user-select: none;
-  }
-
-  /* 标签筛选 */
+  /* Tag filter row */
   .tag-row {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .tag-btn {
@@ -247,24 +174,39 @@ function formatDate(date: Date) {
     font-size: 0.78rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--color-text-light);
   }
   .tag-btn.active {
     background: var(--color-accent);
     color: #fff;
     border-color: var(--color-accent);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
   .tag-btn:hover:not(.active) {
     border-color: var(--color-accent);
     color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 5%, transparent);
   }
 
-  /* 文章列表 */
+  /* Post list */
   .post-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Timeline line */
+  .post-list::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
+    border-radius: 1px;
   }
 
   .post-card {
@@ -272,18 +214,45 @@ function formatDate(date: Date) {
     flex-direction: column;
     background: var(--color-bg-card);
     border-radius: 12px;
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 1.5rem;
     text-decoration: none;
     color: inherit;
     box-shadow: 0 2px 12px rgba(159, 64, 45, 0.06);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    margin-bottom: 0.75rem;
+    border: 1px solid transparent;
+  }
+
+  /* Timeline dot */
+  .post-card::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 1.5rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid var(--color-bg);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 20%, transparent);
+    z-index: 1;
+    transition: all 0.3s;
+  }
+
+  .post-card:hover::before {
+    transform: scale(1.3);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 15%, transparent);
   }
   @media (min-width: 768px) {
     .post-card {
       flex-direction: row;
       align-items: center;
       gap: 1.5rem;
-      padding: 1.25rem 1.5rem;
+      padding: 1.25rem 1.5rem 1.25rem 2rem;
+    }
+    .post-card::before {
+      left: -5px;
     }
     .post-head {
       width: 140px;
@@ -301,12 +270,23 @@ function formatDate(date: Date) {
       display: none;
     }
   }
-  .post-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(159, 64, 45, 0.12);
+
+  /* Hide timeline on mobile for cleaner look */
+  @media (max-width: 767px) {
+    .post-list::before {
+      display: none;
+    }
+    .post-card {
+      padding-left: 1rem;
+    }
+    .post-card::before {
+      display: none;
+    }
   }
-  @media (min-width: 640px) {
-    .post-card { padding: 1.25rem 1.5rem; }
+  .post-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px rgba(159, 64, 45, 0.12);
+    border-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
   }
 
   .post-head {
@@ -369,5 +349,49 @@ function formatDate(date: Date) {
     color: var(--color-text-light);
     font-size: 0.85rem;
     padding: 3rem 0;
+  }
+
+  /* Category card (right sidebar) */
+  .cat-card {
+    background: var(--color-bg-card);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 12px rgba(159, 64, 45, 0.06);
+    border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  }
+
+  .cat-title {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+  }
+
+  .cat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--color-text);
+  }
+
+  .cat-check {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .cat-label {
+    user-select: none;
   }
 </style>
