@@ -40,27 +40,16 @@ const {
     <SEO title={title} description={description} image={image} type={type} publishDate={publishDate} tags={tags} />
     <slot name="head" />
     <title>{title} | Beautifugly</title>
-    <style>
-      /* 桌面端：主内容避开左侧个人信息卡，左右等距 */
-      @media (min-width: 1100px) {
-        .sidebar-aware {
-          width: 100%;
-          margin-left: auto;
-          margin-right: auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-      }
-    </style>
     <meta name="view-transition" content="same-origin" />
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
     <Nav />
-    <Sidebar />
-    <main class="flex-1 sidebar-aware">
-      <slot />
-    </main>
+    <div class="flex-1 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-start gap-8 px-4 sm:px-6 lg:px-8 py-8">
+      <Sidebar />
+      <main class="flex-1 w-full min-w-0">
+        <slot />
+      </main>
+    </div>
     <Footer />
     <BackToTop />
     <Analytics />

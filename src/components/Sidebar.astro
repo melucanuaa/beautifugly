@@ -35,12 +35,10 @@ const links = [
 
 <style>
   .sidebar {
-    position: fixed;
-    left: max(calc((100vw - 80rem) / 2 - 220px), 16px);
-    top: 50%;
-    transform: translateY(-50%);
-    width: 200px;
-    z-index: 40;
+    position: sticky;
+    top: 6rem; /* below nav */
+    width: 240px;
+    flex-shrink: 0;
   }
 
   .sidebar-card {
