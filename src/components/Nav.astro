@@ -34,13 +34,15 @@ const currentPath = Astro.url.pathname;
                   ? 'text-[var(--color-accent)]'
                   : 'text-[var(--color-text-light)] hover:text-[var(--color-text)]'
               ]}
+              aria-haspopup="true"
+              aria-expanded="false"
             >
               {link.label}
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 5l3 3 3-3"/>
               </svg>
             </a>
-            <div class="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+            <div class="absolute top-full left-0 pt-2 hidden group-hover:block z-50" role="menu">
               <div class="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg py-2 min-w-[140px] shadow-lg">
                 {link.children.map(child => (
                   <a
@@ -90,7 +92,7 @@ const currentPath = Astro.url.pathname;
         </svg>
       </button>
       <ThemeToggle />
-      <button id="menu-toggle" class="p-2.5" aria-label="Toggle menu">
+      <button id="menu-toggle" class="p-2.5" aria-label="菜单">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 12h18M3 6h18M3 18h18" />
         </svg>
@@ -150,7 +152,7 @@ const currentPath = Astro.url.pathname;
 </nav>
 
 {/* Search modal */}
-<div id="search-modal" class="fixed inset-0 z-[100] hidden">
+<div id="search-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-label="搜索">
   <div class="absolute inset-0 bg-black/50" id="search-overlay"></div>
   <div class="relative max-w-2xl mx-auto mt-20 px-4 max-h-[80vh] overflow-y-auto">
     <div class="bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg p-4 shadow-xl">

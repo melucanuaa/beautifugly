@@ -12,7 +12,7 @@ const works = (await getCollection('works'))
     <h1 class="font-[var(--font-heading)] text-xl mb-2">✦ 作品集</h1>
     <p class="text-[var(--color-text-light)] mb-8">AI 生图、视频、创意作品展示</p>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="grid md:grid-cols-3 gap-5">
       {works.map(work => (
         <a href={`/works/${work.id}`} class="card overflow-hidden group">
           <div class="aspect-[4/3] bg-[var(--color-border)] overflow-hidden">

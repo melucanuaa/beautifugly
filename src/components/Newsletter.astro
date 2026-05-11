@@ -6,8 +6,8 @@
   <div class="flex items-start gap-3 mb-3">
     <span class="text-xl">✉</span>
     <div>
-      <h3 class="font-[var(--font-heading)] text-xs">订阅更新</h3>
-      <p class="text-sm text-[var(--color-text-light)] mt-1">获取最新文章和作品通知，不会 spam 你</p>
+      <h3 class="font-[var(--font-heading)] text-xs">订阅更新 <span class="text-[10px] opacity-60">(即将推出)</span></h3>
+      <p class="text-sm text-[var(--color-text-light)] mt-1">获取最新文章和作品通知</p>
     </div>
   </div>
   <form class="flex gap-2 mt-4" id="newsletter-form">
@@ -15,24 +15,14 @@
       type="email"
       placeholder="your@email.com"
       required
-      class="flex-1 px-4 py-2 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg focus:border-[var(--color-accent)] outline-none transition-colors text-sm"
+      disabled
+      class="flex-1 px-4 py-2 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-lg outline-none transition-colors text-sm opacity-50 cursor-not-allowed"
     />
-    <button type="submit" class="btn-primary text-xs shrink-0">
-      订阅
+    <button type="submit" class="btn-primary text-xs shrink-0 opacity-50 cursor-not-allowed" disabled>
+      即将推出
     </button>
   </form>
   <p class="text-xs text-[var(--color-text-light)] mt-2">支持随时退订</p>
 </div>
 
-<script>
-  const form = document.getElementById('newsletter-form') as HTMLFormElement;
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = (form.querySelector('input[type="email"]') as HTMLInputElement)?.value;
-    if (email) {
-      // TODO: 接入邮件订阅服务 (如 Buttondown, ConvertKit, Resend)
-      alert('感谢订阅！后续会通过邮件通知你最新内容。');
-      form.reset();
-    }
-  });
-</script>
+<!-- TODO: 接入邮件订阅服务 (如 Buttondown, ConvertKit, Resend) -->

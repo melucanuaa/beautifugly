@@ -12,6 +12,7 @@
   --color-text-light: #56423e;
   --color-accent: #9f402d;
   --color-accent-secondary: #56642b;
+  --color-accent-pink: #e8a0b4;
   --color-border: rgba(137, 114, 109, 0.3);
   --color-shadow: rgba(159, 64, 45, 0.08);
 }
@@ -23,6 +24,7 @@
   --color-text-light: #b0a8a4;
   --color-accent: #e2725b;
   --color-accent-secondary: #d6e7a1;
+  --color-accent-pink: #d4728a;
   --color-border: rgba(200, 190, 185, 0.2);
   --color-shadow: rgba(226, 114, 91, 0.1);
 }
