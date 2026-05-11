@@ -2,81 +2,87 @@
 import Layout from '../../layouts/Layout.astro';
 ---
 
-<Layout title="AI 图片生成" description="使用 GPT IMAGE 2 在线生成图片，支持文生图和图生图">
-  <section class="ai-page">
-    <a href="/projects" class="back-link">← 返回项目</a>
+<Layout title="AI 生图" description="使用 GPT IMAGE 2 在线生成图片，支持文生图和图生图">
+  <section class="py-4">
+    <a href="/projects" class="text-sm text-[var(--color-accent)] hover:underline mb-6 inline-block">← 返回项目</a>
 
-    <h1 class="page-title">AI 图片生成</h1>
-    <p class="page-subtitle">使用 GPT IMAGE 2 在线文生图 / 图生图</p>
+    <h1 class="font-[var(--font-heading)] text-xl md:text-2xl mb-2">AI 生图</h1>
+    <p class="text-sm text-[var(--color-text-light)] mb-6">使用 GPT IMAGE 2 在线文生图 / 图生图</p>
 
-    <!-- API Key -->
-    <div class="ai-card">
-      <label class="field-label">API Key</label>
-      <div class="key-row">
-        <input
-          id="api-key"
-          type="password"
-          placeholder="输入你的 API Key"
-          class="key-input"
-        />
-        <button id="btn-confirm-key" class="btn-confirm">确认</button>
-      </div>
-      <p id="key-status" class="key-status"></p>
-    </div>
+    <div class="ai-layout">
+      {/* Left: Config Panel */}
+      <div class="ai-config">
+        {/* API Key */}
+        <div class="ai-card">
+          <label class="field-label">API Key</label>
+          <div class="key-row">
+            <input id="api-key" type="password" placeholder="输入你的 API Key" class="key-input" />
+            <button id="btn-confirm-key" class="btn-accent">确认</button>
+          </div>
+          <p id="key-status" class="key-status"></p>
+        </div>
 
-    <!-- Mode Toggle -->
-    <div class="mode-toggle">
-      <button id="tab-txt" class="mode-btn active">文生图</button>
-      <button id="tab-img" class="mode-btn">图生图</button>
-    </div>
+        {/* Mode Toggle */}
+        <div class="mode-toggle">
+          <button id="tab-txt" class="mode-btn active">文生图</button>
+          <button id="tab-img" class="mode-btn">图生图</button>
+        </div>
 
-    <!-- Parameters -->
-    <div class="ai-card">
-      <label class="field-label">提示词</label>
-      <textarea
-        id="prompt"
-        rows="4"
-        placeholder="描述你想要的图片，越详细效果越好..."
-        class="prompt-input"
-      ></textarea>
+        {/* Prompt */}
+        <div class="ai-card">
+          <label class="field-label">提示词</label>
+          <textarea id="prompt" rows="5" placeholder="描述你想要的图片，越详细效果越好..." class="prompt-input"></textarea>
 
-      <label class="field-label">尺寸</label>
-      <div id="size-options" class="size-row">
-        <button data-size="1:1" class="size-btn active">1:1</button>
-        <button data-size="16:9" class="size-btn">16:9</button>
-        <button data-size="9:16" class="size-btn">9:16</button>
-        <button data-size="4:3" class="size-btn">4:3</button>
-        <button data-size="3:4" class="size-btn">3:4</button>
-      </div>
+          <label class="field-label">尺寸</label>
+          <div id="size-options" class="size-row">
+            <button data-size="1:1" class="size-btn active">1:1</button>
+            <button data-size="16:9" class="size-btn">16:9</button>
+            <button data-size="9:16" class="size-btn">9:16</button>
+            <button data-size="4:3" class="size-btn">4:3</button>
+            <button data-size="3:4" class="size-btn">3:4</button>
+          </div>
 
-      <!-- Upload (img2img) -->
-      <div id="upload-area" class="upload-area hidden">
-        <label class="field-label">上传图片</label>
-        <div id="drop-zone" class="drop-zone">
-          <input id="file-input" type="file" accept="image/*" class="hidden" />
-          <p id="upload-text" class="drop-text">点击或拖拽图片到此处</p>
-          <img id="preview-img" class="preview-img hidden" />
+          {/* Upload (img2img) */}
+          <div id="upload-area" class="hidden">
+            <label class="field-label">上传图片</label>
+            <div id="drop-zone" class="drop-zone">
+              <input id="file-input" type="file" accept="image/*" class="hidden" />
+              <p id="upload-text" class="drop-text">点击或拖拽图片到此处</p>
+              <img id="preview-img" class="preview-img hidden" />
+            </div>
+          </div>
+
+          <button id="btn-generate" class="btn-generate" disabled>生成图片</button>
         </div>
       </div>
 
-      <button id="btn-generate" class="btn-generate" disabled>生成图片</button>
-    </div>
+      {/* Right: Result Panel */}
+      <div class="ai-result">
+        <div id="result-area" class="result-area">
+          {/* Empty state */}
+          <div id="empty-state" class="empty-state">
+            <div class="empty-icon">✦</div>
+            <p class="empty-text">输入提示词，点击生成</p>
+            <p class="empty-hint">生成的图片将显示在这里</p>
+          </div>
 
-    <!-- Result -->
-    <div id="result-area" class="result-area hidden">
-      <div class="ai-card">
-        <h2 class="result-title">生成结果</h2>
-        <div id="loading" class="loading hidden">
-          <div class="spinner"></div>
-          <p class="loading-text">正在生成，请稍候...</p>
-        </div>
-        <div id="error-msg" class="error-msg hidden">
-          <p></p>
-        </div>
-        <div id="result-img-area" class="result-img-area hidden">
-          <img id="result-img" class="result-img" />
-          <p id="revised-prompt" class="revised-prompt"></p>
-          <a id="btn-download" class="btn-confirm" download="ai-generated.png">下载图片</a>
+          {/* Loading */}
+          <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p class="loading-text">正在生成，请稍候...</p>
+          </div>
+
+          {/* Error */}
+          <div id="error-msg" class="error-msg hidden">
+            <p></p>
+          </div>
+
+          {/* Result Image */}
+          <div id="result-img-area" class="result-img-area hidden">
+            <img id="result-img" class="result-img" />
+            <p id="revised-prompt" class="revised-prompt"></p>
+            <a id="btn-download" class="btn-accent" download="ai-generated.png">下载图片</a>
+          </div>
         </div>
       </div>
     </div>
@@ -107,7 +113,7 @@ import Layout from '../../layouts/Layout.astro';
   const uploadText = document.getElementById('upload-text')!;
   const previewImg = document.getElementById('preview-img') as HTMLImageElement;
   const btnGenerate = document.getElementById('btn-generate') as HTMLButtonElement;
-  const resultArea = document.getElementById('result-area')!;
+  const emptyState = document.getElementById('empty-state')!;
   const loading = document.getElementById('loading')!;
   const errorMsg = document.getElementById('error-msg')!;
   const resultImgArea = document.getElementById('result-img-area')!;
@@ -188,7 +194,7 @@ import Layout from '../../layouts/Layout.astro';
   btnGenerate.addEventListener('click', async () => {
     if (btnGenerate.disabled) return;
 
-    resultArea.classList.remove('hidden');
+    emptyState.classList.add('hidden');
     loading.classList.remove('hidden');
     errorMsg.classList.add('hidden');
     resultImgArea.classList.add('hidden');
@@ -246,7 +252,7 @@ import Layout from '../../layouts/Layout.astro';
       const imgUrl = data.data?.[0]?.url;
       if (!imgUrl) throw new Error('未获取到图片地址');
 
-      const secureUrl = imgUrl.replace(/^http:\/\//, 'https://');
+      const secureUrl = imgUrl.replace(/^http:\/\//, 'https://://');
       loading.classList.add('hidden');
       resultImgArea.classList.remove('hidden');
       resultImg.src = secureUrl;
@@ -272,41 +278,31 @@ import Layout from '../../layouts/Layout.astro';
 </script>
 
 <style>
-  .ai-page {
-    max-width: 720px;
-    padding: 2rem 1rem;
+  /* Layout: left config + right result */
+  .ai-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
-  @media (min-width: 640px) {
-    .ai-page { padding: 3rem 1.5rem; }
+  @media (min-width: 1024px) {
+    .ai-layout {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    .ai-config {
+      width: 380px;
+      flex-shrink: 0;
+    }
+    .ai-result {
+      flex: 1;
+      min-width: 0;
+      position: sticky;
+      top: 5rem;
+    }
   }
 
-  .back-link {
-    font-size: 0.85rem;
-    color: var(--color-accent);
-    text-decoration: none;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-  }
-  .back-link:hover { text-decoration: underline; }
-
-  .page-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-    color: var(--color-text);
-  }
-  @media (min-width: 640px) {
-    .page-title { font-size: 1.75rem; }
-  }
-
-  .page-subtitle {
-    font-size: 0.85rem;
-    color: var(--color-text-light);
-    margin-bottom: 1.5rem;
-  }
-
+  /* Cards */
   .ai-card {
     background: var(--color-bg-card);
     border-radius: 12px;
@@ -315,7 +311,7 @@ import Layout from '../../layouts/Layout.astro';
     box-shadow: 0 2px 12px rgba(159, 64, 45, 0.06);
   }
   @media (min-width: 640px) {
-    .ai-card { padding: 1.5rem; }
+    .ai-card { padding: 1.25rem; }
   }
 
   .field-label {
@@ -329,14 +325,7 @@ import Layout from '../../layouts/Layout.astro';
   /* API Key */
   .key-row {
     display: flex;
-    flex-direction: column;
     gap: 0.5rem;
-  }
-  @media (min-width: 640px) {
-    .key-row {
-      flex-direction: row;
-      gap: 0.75rem;
-    }
   }
 
   .key-input {
@@ -345,7 +334,7 @@ import Layout from '../../layouts/Layout.astro';
     background: transparent;
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    padding: 0.625rem 0.75rem;
+    padding: 0.5rem 0.75rem;
     font-size: 0.85rem;
     outline: none;
     transition: border-color 0.2s;
@@ -360,12 +349,12 @@ import Layout from '../../layouts/Layout.astro';
   .key-status.error { color: #dc2626; }
   .key-status.success { color: var(--color-accent); }
 
-  .btn-confirm {
+  .btn-accent {
     background: var(--color-accent);
     color: #fff;
     border: none;
     border-radius: 8px;
-    padding: 0.625rem 1.25rem;
+    padding: 0.5rem 1rem;
     font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
@@ -375,7 +364,7 @@ import Layout from '../../layouts/Layout.astro';
     display: inline-block;
     text-align: center;
   }
-  .btn-confirm:hover { opacity: 0.9; }
+  .btn-accent:hover { opacity: 0.9; }
 
   /* Mode Toggle */
   .mode-toggle {
@@ -415,9 +404,10 @@ import Layout from '../../layouts/Layout.astro';
     padding: 0.625rem 0.75rem;
     font-size: 0.85rem;
     outline: none;
-    resize: none;
+    resize: vertical;
     margin-bottom: 1rem;
     transition: border-color 0.2s;
+    min-height: 80px;
   }
   .prompt-input:focus { border-color: var(--color-accent); }
 
@@ -451,15 +441,14 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   /* Upload */
-  .upload-area { margin-bottom: 1rem; }
-
   .drop-zone {
     border: 1.5px dashed var(--color-border);
     border-radius: 10px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     text-align: center;
     cursor: pointer;
     transition: border-color 0.2s;
+    margin-bottom: 1rem;
   }
   .drop-zone:hover, .drop-zone.dragover {
     border-color: var(--color-accent);
@@ -476,9 +465,6 @@ import Layout from '../../layouts/Layout.astro';
     border-radius: 8px;
     display: block;
   }
-  @media (min-width: 640px) {
-    .preview-img { max-height: 12rem; }
-  }
 
   /* Generate Button */
   .btn-generate {
@@ -491,7 +477,7 @@ import Layout from '../../layouts/Layout.astro';
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
   }
   .btn-generate:disabled {
     opacity: 0.5;
@@ -499,19 +485,51 @@ import Layout from '../../layouts/Layout.astro';
   }
   .btn-generate:hover:not(:disabled) { opacity: 0.9; }
 
-  /* Result */
-  .result-area { margin-top: 0; }
-
-  .result-title {
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  /* Result Area */
+  .result-area {
+    background: var(--color-bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(159, 64, 45, 0.06);
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .empty-icon {
+    font-size: 2.5rem;
+    color: var(--color-border);
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .empty-text {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.25rem;
+  }
+
+  .empty-hint {
+    font-size: 0.78rem;
+    color: var(--color-border);
+  }
+
+  /* Loading */
   .loading {
     text-align: center;
-    padding: 2rem 0;
+    padding: 2rem;
+    width: 100%;
   }
 
   .spinner {
@@ -530,21 +548,28 @@ import Layout from '../../layouts/Layout.astro';
     color: var(--color-text-light);
   }
 
+  /* Error */
   .error-msg {
     text-align: center;
-    padding: 1.5rem 0;
+    padding: 1.5rem;
+    width: 100%;
   }
   .error-msg p {
     font-size: 0.82rem;
     color: #dc2626;
   }
 
-  .result-img-area { text-align: center; }
+  /* Result Image */
+  .result-img-area {
+    width: 100%;
+    text-align: center;
+  }
 
   .result-img {
     width: 100%;
     border-radius: 10px;
     margin-bottom: 1rem;
+    box-shadow: 0 4px 20px rgba(159, 64, 45, 0.1);
   }
 
   .revised-prompt {
@@ -553,6 +578,9 @@ import Layout from '../../layouts/Layout.astro';
     margin-bottom: 0.75rem;
     text-align: left;
     line-height: 1.5;
+    padding: 0.75rem;
+    background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+    border-radius: 8px;
   }
 
   .hidden { display: none !important; }
