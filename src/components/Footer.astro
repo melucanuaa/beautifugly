@@ -15,16 +15,12 @@ const year = new Date().getFullYear();
       </a>
 
       {/* Stats */}
-      <div class="flex items-center gap-4 text-xs text-[var(--color-text-light)] whitespace-nowrap flex-nowrap">
-        <span id="busuanzi_container_site_pv" class="inline-flex items-center gap-1.5 flex-nowrap whitespace-nowrap">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="opacity-50 shrink-0"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <span id="busuanzi_value_site_pv" class="tabular-nums">--</span><span> 次浏览</span>
-        </span>
-        <span class="text-[var(--color-border)]">·</span>
-        <span id="busuanzi_container_site_uv" class="inline-flex items-center gap-1.5 flex-nowrap whitespace-nowrap">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="opacity-50 shrink-0"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span id="busuanzi_value_site_uv" class="tabular-nums">--</span><span> 位访客</span>
-        </span>
+      <div class="footer-stats">
+        <span class="footer-stats-icon">👁</span>
+        <span id="busuanzi_container_site_pv" class="footer-stats-item"><span id="busuanzi_value_site_pv">--</span> 次浏览</span>
+        <span class="footer-stats-dot">·</span>
+        <span class="footer-stats-icon">👤</span>
+        <span id="busuanzi_container_site_uv" class="footer-stats-item"><span id="busuanzi_value_site_uv">--</span> 位访客</span>
       </div>
 
       {/* Links */}
@@ -52,3 +48,27 @@ const year = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    white-space: nowrap;
+  }
+
+  .footer-stats-icon {
+    font-size: 0.8rem;
+    line-height: 1;
+  }
+
+  .footer-stats-dot {
+    color: var(--color-border);
+  }
+
+  .footer-stats-item {
+    tabular-nums: true;
+  }
+</style>
