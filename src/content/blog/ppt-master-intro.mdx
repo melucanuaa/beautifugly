@@ -1,0 +1,152 @@
+---
+title: "打工人做了个 AI 帮自己做 PPT，GitHub 一个月涨了 5000 星"
+date: 2026-05-14
+tags: ["AI", "PPT", "开源", "效率工具", "打工人"]
+category: "项目推荐"
+description: "投融资从业者何雨果被 PPT 折磨到自己动手，做出了 PPT Master——一个能从任意文档生成原生可编辑 PPTX 的开源工具。技术路线跟所有竞品都不一样。"
+---
+
+GitHub 上做 AI PPT 的工具少说有几十个，但绝大多数都有一个致命问题：**生成的 PPT 根本没法直接用。**
+
+要么导出的文本是图片，点都点不中；要么样式锁死，改个配色要重做一半；要么导出走样，浏览器里看着挺好，一到 PowerPoint 就面目全非。
+
+PPT Master 的作者何雨果，一个每天都在做 PPT 的投融资从业者，被这些问题折磨够了，索性自己写了一个。去年 12 月开源，一个月涨了 5000 星，现在总星标突破 16000。
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:1.5rem 0">
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
+    <div style="font-size:1.5rem;font-weight:700;color:var(--color-accent)">16K+</div>
+    <div style="font-size:0.75rem;color:var(--color-text-light);margin-top:4px">GitHub Stars</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
+    <div style="font-size:1.5rem;font-weight:700;color:var(--color-accent)">MIT</div>
+    <div style="font-size:0.75rem;color:var(--color-text-light);margin-top:4px">完全免费开源</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
+    <div style="font-size:1.5rem;font-weight:700;color:var(--color-accent)">309 页</div>
+    <div style="font-size:0.75rem;color:var(--color-text-light);margin-top:4px">官方示例总量</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px var(--color-shadow)">
+    <div style="font-size:1.5rem;font-weight:700;color:var(--color-accent)">Python</div>
+    <div style="font-size:0.75rem;color:var(--color-text-light);margin-top:4px">技术栈</div>
+  </div>
+</div>
+
+## 作者是谁
+
+何雨果（Hugo He），投融资从业者，不是程序员。日常就是做 PPT、审 PPT、改 PPT。他自己的说法：**"我是最挑剔的用户。"**
+
+这个项目不是程序员觉得"这个需求有意思"然后做的，是一个每天被 PPT 折磨的打工人，花了大量时间打磨出来的工具。这种出身决定了它在"到底什么样的 PPT 才算能用"这个问题上，判断比大多数 AI 工具都准。
+
+## 市面上的 AI PPT 工具，为什么都不好用
+
+目前做 AI PPT 的工具大致走三条路，每条都有硬伤：
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:1.5rem 0">
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent-pink)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">路线一：HTML/CSS 渲染</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">Gamma、Tome 等在浏览器里做得好看，但 HTML 是文档流，PPT 是画布。导出 PPTX 时布局走样、字体丢失、元素被扁平化。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent-pink)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">路线二：python-pptx 直接生成</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">ChatGPT 等用代码直接构建 PPTX，元素可编辑，但 AI 缺乏训练数据来生成复杂设计，只能做基础文本框加列表。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent-pink)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">路线三：模板 SaaS</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">绑定平台、按月收费、模板有限、品牌适配差。今天依赖他们，明天涨价或关停，你做的东西全没了。</div>
+  </div>
+</div>
+
+## PPT Master 的第四条路
+
+PPT Master 走了一条完全不同的技术路线：**AI 生成 SVG，脚本将 SVG 转换为 DrawingML。**
+
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent)">
+  <strong>为什么这条路走得通？</strong> SVG 和 DrawingML 本质上是同一类东西——都是基于绝对坐标的 2D 矢量格式。矩形、路径、渐变、阴影的概念一一对应。转换是"方言翻译"，不是格式代沟。
+</div>
+
+这意味着 AI 负责它擅长的事（排版、配色、信息架构），脚本负责精确的格式转换。最终输出的 PPTX 里，**每个形状、文本框、渐变、阴影都是原生 PowerPoint 对象**——点击就能编辑，不是截图，不是图片化文本。
+
+## 它能做什么
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:1.5rem 0">
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">输入：几乎什么都行</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">PDF、DOCX、PPTX、XLSX、EPUB、HTML、LaTeX、网页链接、微信公众号文章、Markdown、纯文本，甚至只给一个主题名也行。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">输出：原生可编辑 PPTX</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">兼容 Office 2016+ 全功能编辑，WPS 2023+ 也能用。支持 16:9、4:3、小红书 3:4、朋友圈 1:1、竖版 9:16、A4 打印。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">品牌定制</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">支持自定义品牌模板、设计规范、工作流。内置 3 种执行师：通用场景、咨询数据可视化、顶级专业咨询。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">不绑定工具</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">Claude Code、VS Code Copilot、Cursor、Codebuddy IDE 都能驱动。Claude 效果最好，GPT、Gemini、Kimi 也可以。</div>
+  </div>
+</div>
+
+官方提供了 22 个示例项目、309 页成品展示，风格覆盖顶级咨询（MBB 级）、Google 品牌风、科技暗色、学术论文、甚至易经和禅意风格。
+
+## 跟竞品到底差多少
+
+| 对比项 | PPT Master | Gamma | WPS AI | Copilot PPT |
+|--------|-----------|-------|--------|-------------|
+| 输出格式 | 原生可编辑 PPTX，全元素可改 | 网页导出为主，PPT 多为图片嵌入 | 原生格式，但样式自由度低 | 基础文本框架，图表多为图片 |
+| 自定义能力 | 全流程可定制，支持自定义模板和工作流 | 模板固定，仅能改基础配色 | 样式限制多，品牌适配差 | 无深度定制能力 |
+| 价格 | 免费开源（MIT） | $8-20/月 | 免费/会员 | Microsoft 365 订阅 |
+| 商用授权 | MIT，版权完全归属用户 | 免费版不可商用 | 有平台约束 | 版权归属用户 |
+| 数据安全 | 文件不离开本地 | 文件上传至云端 | 文件上传至云端 | 文件上传至云端 |
+
+## 适合谁用
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:1.5rem 0">
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">咨询 / 金融从业者</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">内置 MBB 级咨询风格，数据可视化能力强，品牌模板适配度高。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">需要频繁汇报的人</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">周报、月报、季度汇报——扔进去一份 Word 或 PDF，几分钟出一版能用的初稿。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">内容创作者</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">支持小红书 3:4、朋友圈 1:1、竖版 9:16 等非标准比例，同一套流水线搞定。</div>
+  </div>
+  <div style="background:var(--color-bg-card);border-radius:10px;padding:14px;border-left:3px solid var(--color-accent)">
+    <div style="font-weight:600;font-size:0.85rem;margin-bottom:6px">注重数据安全的人</div>
+    <div style="font-size:0.8rem;color:var(--color-text-light)">全程本地处理，文件不离开你的电脑。唯一外部通信是你和 AI 编辑器的对话。</div>
+  </div>
+</div>
+
+## 不适合的场景
+
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent-pink)">
+  <strong>注意：</strong> PPT Master 的定位是"AI 是你的设计师，不是完工师"。它帮你消除 90% 从零开始的工作量，但最后 10% 的精细化调整——排版微调、图片替换、内容校对——还是需要你在 PowerPoint 里手动完成。如果你期望的是"一键出成品，完全不用改"，那这不是你要的工具。
+</div>
+
+## 快速上手
+
+只需要三步：
+
+<div style="background:var(--color-bg-card);border-radius:10px;padding:14px;margin:1rem 0;font-size:0.82rem;border-left:3px solid var(--color-accent)">
+  <strong>1.</strong> 安装 Python 3.10+ 环境<br/>
+  <strong>2.</strong> 克隆仓库并安装依赖：<code style="background:var(--color-bg);padding:2px 6px;border-radius:4px;font-size:0.78rem">git clone https://github.com/hugohe3/ppt-master.git</code><br/>
+  <strong>3.</strong> 在 Claude Code / Cursor / VS Code Copilot 中打开项目，对着你的文档说"帮我生成一份 PPT"
+</div>
+
+支持批量生成——通过 Shell 或 Python 脚本调用核心脚本，可以实现企业级批量文档转 PPT 的自动化。
+
+## 最后
+
+PPT Master 最打动我的不是技术多牛，而是它的出身。一个每天做 PPT 的打工人，被折磨到自己动手，做出来的东西自然比"程序员觉得用户需要"的工具更靠谱。
+
+技术上，SVG 转 DrawingML 这条路确实是目前 AI PPT 领域最务实的解法——既保留了 AI 的排版能力，又保证了输出的可编辑性。MIT 协议、全程本地化、不绑定平台，对打工人来说基本没有使用门槛。
+
+如果你也被 PPT 折磨过，值得试试。
+
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin:1.5rem 0">
+  <a href="https://github.com/hugohe3/ppt-master" style="display:inline-block;background:var(--color-accent);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600">GitHub 仓库</a>
+  <a href="https://hugohe3.github.io/ppt-master/" style="display:inline-block;background:var(--color-bg-card);color:var(--color-text);padding:10px 20px;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;border:1px solid var(--color-border)">官方文档</a>
+</div>
